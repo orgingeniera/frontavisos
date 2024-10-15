@@ -1,0 +1,37 @@
+<div class="container mt-4">
+    <h2>Lista de Usuarios</h2>
+    <button class="btn btn-primary mb-3" [routerLink]="['/usercreate']">Insertar Usuario</button>
+
+ 
+    <table class="table table-striped" *ngIf="users.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Fecha de Creación</th>
+          <th>Estado</th>
+          <th>Acciones</th> 
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.created_at | date }}</td>
+          <td>{{ user.estado }}</td>
+          <td>
+            <button class="btn btn-warning me-2" (click)="editUser(user)">Actualizar</button>
+            <button class="btn btn-danger" (click)="deleteUser(user.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div *ngIf="users.length === 0">
+      No hay usuarios disponibles.
+    </div>
+  </div>
+  
+  
