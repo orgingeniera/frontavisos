@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AutService } from './aut.service';
-
+import { IUser } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'  // Hace que el servicio esté disponible en toda la aplicación
@@ -16,5 +16,9 @@ export class UserService {
   }
   getUsers(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/alluser`, { headers: this.autService.getHeaders() });
+  }
+  // Método para agregar un usuario
+  addUser(user: IUser): Observable<IUser> {
+    return this.http.post<IUser>(`${this.apiUrl}/insertusers`, user,{ headers: this.autService.getHeaders() });
   }
 }

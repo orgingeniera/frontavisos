@@ -49,13 +49,31 @@
           La contraseña es requerida.
         </div>
       </div>
-  
+      <!-- Confirmar Contraseña -->
+    <div class="mb-3">
+      <label for="confirmPassword" class="form-label">Confirmar Contraseña:</label>
+      <input 
+        id="confirmPassword" 
+        formControlName="confirmPassword" 
+        type="password" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': userForm.get('confirmPassword')?.invalid && userForm.get('confirmPassword')?.touched}"
+        placeholder="Confirma tu contraseña"
+      />
+      <div *ngIf="userForm.get('confirmPassword')?.invalid && userForm.get('confirmPassword')?.touched" class="invalid-feedback">
+        Debes confirmar la contraseña.
+      </div>
+      <div *ngIf="!passwordsMatch && userForm.get('confirmPassword')?.touched" class="invalid-feedback">
+        Las contraseñas no coinciden.
+      </div>
+    </div>
+
       <!-- Botón de envío -->
       <div class="text-center">
         <button 
           type="submit" 
           class="btn btn-primary w-100"
-          [disabled]="isLoading || userForm.invalid">
+          >
           Insertar Usuario
         </button>
       </div>

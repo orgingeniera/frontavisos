@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../servicios/user.service';
+import { IUser } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-insert-user',
@@ -15,34 +17,46 @@ export class InsertUserComponent {
   userForm: FormGroup;
   isLoading = false;
   errorMessage = '';
+  passwordsMatch: boolean = true; 
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private userService: UserService) {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required]
     });
   }
-  onSubmit() {
+  onSubmit(): void {
     if (this.userForm.valid) {
-      console.log("entro")
-      /*this.isLoading = true;
-      this.http.post('http://127.0.0.1:8000/api/users', this.userForm.value)
-        .subscribe({
-          next: () => {
-            this.isLoading = false;
-            alert('Usuario insertado correctamente');
-            this.router.navigate(['/users']);
-          },
-          error: (err) => {
-            this.isLoading = false;
-            this.errorMessage = 'Hubo un error al insertar el usuario';
-            console.error(err);
+        this.passwordsMatch = this.userForm.value.password === this.userForm.value.confirmPassword;
+        if (!this.passwordsMatch) {
+            this.errorMessage = 'Las contraseñas no coinciden.';
+            return; // Detener la ejecución si no coinciden
           }
-        });*/
+        this.isLoading = true;
+      
+      // Crear un objeto User con los valores del formulario
+      const userFormValues : IUser = this.userForm.value;
+      const user: IUser = {
+        ...userFormValues,
+        estado: '1'  // Asignar el valor 1 al campo estado
+      };
+      // Usar el servicio para agregar el usuario
+      this.userService.addUser(user).subscribe({
+        next: () => {
+          this.isLoading = false;
+          alert('Usuario insertado correctamente');
+          this.router.navigate(['/userlista']);
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.errorMessage = 'Hubo un error al insertar el usuario';
+          console.error(err);
+        }
+      });
     } else {
-      console.log("error")
-     // this.errorMessage = 'Por favor, llena todos los campos correctamente';
+      this.errorMessage = 'Por favor, llena todos los campos correctamente';
     }
   }
 }
