@@ -1,6 +1,6 @@
 <div class="container mt-4">
     <h2>Lista de Usuarios</h2>
-    <button class="btn btn-primary mb-3 me-2" [routerLink]="['/usercreate']">Insertar Usuario</button>
+    <button class="btn btn-primary mb-3 me-2" [routerLink]="['/insertar']">Insertar Usuario</button>
     <!-- Botón para exportar a Excel -->
     <button class="btn btn-success mb-3" (click)="exportToExcel()">Exportar a Excel</button>
  
@@ -30,7 +30,10 @@
         <tr>
           <th>ID</th>
           <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Telefono</th>
           <th>Email</th>
+          <th>Direccion</th>
           <th>Fecha de Creación</th>
           <th>Estado</th>
           <th>Acciones</th> 
@@ -40,9 +43,12 @@
         <tr *ngFor="let user of users">
           <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
+          <td>{{ user.apellido }}</td>
+          <td>{{ user.telefono }}</td>
           <td>{{ user.email }}</td>
+          <td>{{ user.direccion }}</td>
           <td>{{ user.created_at | date }}</td>
-          <td>{{ user.estado }}</td>
+          <td>{{ user.estado === '1' ? 'Activo' : (user.estado === '2' ? 'Inactivo' : 'Desconocido') }}</td>
           <td>
             <button class="btn btn-warning me-2" (click)="editUser(user)">Actualizar</button>
             <button class="btn btn-danger" (click)="deleteUser(user.id)">Eliminar</button>

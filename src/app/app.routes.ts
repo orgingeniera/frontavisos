@@ -23,7 +23,11 @@ export const routes: Routes = [
         loadChildren: () => import('./components/user-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
-        path: 'usercreate',
+        path: 'insertar',
+        loadChildren: () => import('./components/insert-user/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'modificar/:id',  // Nueva ruta para modificar
         loadChildren: () => import('./components/insert-user/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {

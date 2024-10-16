@@ -1,5 +1,6 @@
 <div class="insert-user-form container mt-5">
-    <h2 class="text-center mb-4">Insertar Usuario</h2>
+  <h2 class="text-center mb-4">{{ isEditMode ? 'Modificar Usuario' : 'Insertar Usuario' }}</h2>
+
     <div *ngIf="errorMessage" class="mt-3 text-center text-danger">
       {{ errorMessage }}
     </div>
@@ -19,6 +20,48 @@
           El nombre es requerido.
         </div>
       </div>
+      <div class="mb-3">
+        <label for="apellido" class="form-label">Apellido:</label>
+        <input 
+          id="apellido" 
+          formControlName="apellido" 
+          type="text" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': userForm.get('apellido')?.invalid && userForm.get('apellido')?.touched}"
+          placeholder="Ingresa tu apellido"
+        />
+        <div *ngIf="userForm.get('apellido')?.invalid && userForm.get('apellido')?.touched" class="invalid-feedback">
+          El apellido es requerido.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="telefono" class="form-label">Teléfono:</label>
+        <input 
+          id="telefono" 
+          formControlName="telefono" 
+          type="text" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': userForm.get('telefono')?.invalid && userForm.get('telefono')?.touched}"
+          placeholder="Ingresa tu teléfono"
+        />
+        <div *ngIf="userForm.get('telefono')?.invalid && userForm.get('telefono')?.touched" class="invalid-feedback">
+          El teléfono es requerido.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="direccion" class="form-label">Dirección:</label>
+        <input 
+          id="direccion" 
+          formControlName="direccion" 
+          type="text" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': userForm.get('direccion')?.invalid && userForm.get('direccion')?.touched}"
+          placeholder="Ingresa tu dirección"
+        />
+        <div *ngIf="userForm.get('direccion')?.invalid && userForm.get('direccion')?.touched" class="invalid-feedback">
+          La dirección es requerida.
+        </div>
+      </div>
   
       <!-- Email -->
       <div class="mb-3">
@@ -35,7 +78,22 @@
           Debes ingresar un email válido.
         </div>
       </div>
-  
+      <div class="mb-3">
+        <label for="estado" class="form-label">Estado:</label>
+        <select 
+          id="estado" 
+          formControlName="estado" 
+          class="form-select" 
+          [ngClass]="{'is-invalid': userForm.get('estado')?.invalid && userForm.get('estado')?.touched}"
+        >
+            <option [ngValue]="'1'">Activo</option>
+            <option [ngValue]="'2'">Inactivo</option>
+        </select>
+        <div *ngIf="userForm.get('estado')?.invalid && userForm.get('estado')?.touched" class="invalid-feedback">
+            El estado es requerido.
+        </div>
+    </div>
+    
       <!-- Contraseña -->
       <div class="mb-3">
         <label for="password" class="form-label">Contraseña:</label>
@@ -76,7 +134,7 @@
           type="submit" 
           class="btn btn-primary w-100"
           >
-          Insertar Usuario
+          {{ isEditMode ? 'Modificar Usuario' : 'Insertar Usuario' }}
         </button>
       </div>
     </form>
