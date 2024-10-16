@@ -12,27 +12,31 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class UserListComponent implements OnInit {
   users: any[] = [];  // Aquí se almacenarán los usuarios
-
+  totalPages: number = 0; // Total de páginas
+  currentPage: number = 1; // Página actual
+  perPage: number = 10;
+  perPageOptions: number[] = [5, 10, 20, 50, 100];
   constructor(private userService: UserService, private router: Router) {}  // Inyectamos el servicio
 
   ngOnInit(): void {
     this.getUsers();
   }
 
-  getUsers(): void {
-    this.userService.getUsers().subscribe(
+  getUsers(page: number = 1): void {
+    this.userService.getUsers(page, this.perPage).subscribe(
       (response) => {
-       // Verifica si la respuesta es un array o un solo objeto
-      if (Array.isArray(response)) {
-        this.users = response; // Si es un array, úsalo tal cual
-      } else {
-        this.users = [response]; // Si es un solo objeto, conviértelo en un array con un solo elemento
-      }
+        this.users = response.data;
+        this.totalPages = response.last_page;
+        this.currentPage = response.current_page;
       },
       (error) => {
         console.error('Error al obtener los usuarios:', error);
       }
     );
+  }
+  onPerPageChange(event: any): void {
+    this.perPage = event.target.value;
+    this.getUsers(1); // Volver a la primera página al cambiar la cantidad de registros
   }
   editUser(user: any): void {
     console.log("editar")

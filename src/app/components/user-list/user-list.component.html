@@ -1,8 +1,14 @@
 <div class="container mt-4">
     <h2>Lista de Usuarios</h2>
     <button class="btn btn-primary mb-3" [routerLink]="['/usercreate']">Insertar Usuario</button>
-
- 
+    <!-- Selector de cantidad de registros por página -->
+    <div class="mb-3">
+      <label for="perPageSelect">Registros por página:</label>
+      <select id="perPageSelect" class="form-select" (change)="onPerPageChange($event)"  style="width: auto; display: inline-block;">
+        <option *ngFor="let option of perPageOptions" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+    
     <table class="table table-striped" *ngIf="users.length > 0">
       <thead>
         <tr>
@@ -28,7 +34,21 @@
         </tr>
       </tbody>
     </table>
-  
+    <nav *ngIf="totalPages > 1">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="getUsers(currentPage - 1)">Anterior</a>
+        </li>
+    
+        <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i + 1">
+          <a class="page-link" (click)="getUsers(i + 1)">{{ i + 1 }}</a>
+        </li>
+    
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="getUsers(currentPage + 1)">Siguiente</a>
+        </li>
+      </ul>
+    </nav>
     <div *ngIf="users.length === 0">
       No hay usuarios disponibles.
     </div>

@@ -14,8 +14,8 @@ export class UserService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
-  getUsers(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/alluser`, { headers: this.autService.getHeaders() });
+  getUsers(page: number, perPage: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/alluser?page=${page}&per_page=${perPage}`, { headers: this.autService.getHeaders() });
   }
   // Método para agregar un usuario
   addUser(user: IUser): Observable<IUser> {
