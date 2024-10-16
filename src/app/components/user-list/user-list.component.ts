@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../servicios/user.service';  // Importamos el servicio
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-user-list',
@@ -15,13 +16,24 @@ export class UserListComponent implements OnInit {
   totalPages: number = 0; // Total de páginas
   currentPage: number = 1; // Página actual
   perPage: number = 10;
-  perPageOptions: number[] = [5, 10, 20, 50, 100];
+  perPageOptions: number[] = [10, 20, 50, 100];
   constructor(private userService: UserService, private router: Router) {}  // Inyectamos el servicio
 
   ngOnInit(): void {
     this.getUsers();
   }
 
+  exportToExcel(): void {
+    this.userService.getAllUsers().subscribe(users => {
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(users);
+      const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+      
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Usuarios');
+      
+      // Generar archivo Excel
+      XLSX.writeFile(workbook, 'usuarios.xlsx');
+    });
+  }
   getUsers(page: number = 1): void {
     this.userService.getUsers(page, this.perPage).subscribe(
       (response) => {
