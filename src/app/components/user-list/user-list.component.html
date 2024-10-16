@@ -5,12 +5,25 @@
     <button class="btn btn-success mb-3" (click)="exportToExcel()">Exportar a Excel</button>
  
     <!-- Selector de cantidad de registros por página -->
-    <div class="mb-3">
-      <label for="perPageSelect">Registros por página:</label>
-      <select id="perPageSelect" class="form-select" (change)="onPerPageChange($event)"  style="width: auto; display: inline-block;">
-        <option *ngFor="let option of perPageOptions" [value]="option">{{ option }}</option>
-      </select>
+    <div class="mb-3 d-flex align-items-center">
+      <!-- Selector de registros por página -->
+      <div class="me-3">
+        <label for="perPageSelect">Registros por página:</label>
+        <select id="perPageSelect" class="form-select" (change)="onPerPageChange($event)" style="width: auto;">
+          <option *ngFor="let option of perPageOptions" [value]="option">{{ option }}</option>
+        </select>
+      </div>
+    
+      <!-- Campo de búsqueda alineado al extremo derecho -->
+      <div class="ms-auto">
+        <label for="searchInput">Buscar usuario:</label>
+        <input type="text" id="searchInput" class="form-control" (input)="onSearch($event)" 
+               placeholder="Escriba el nombre o correo" style="width: 250px;">
+      </div>
     </div>
+    
+    
+    
     
     <table class="table table-striped" *ngIf="users.length > 0">
       <thead>
