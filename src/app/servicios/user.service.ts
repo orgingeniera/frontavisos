@@ -17,6 +17,9 @@ export class UserService {
   getUsers(page: number, perPage: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/alluser?page=${page}&per_page=${perPage}`, { headers: this.autService.getHeaders() });
   }
+  getAllUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(`${this.apiUrl}/getallusers`,{ headers: this.autService.getHeaders() }); // Obtiene todos los usuarios sin paginación
+  }
   // Método para agregar un usuario
   addUser(user: IUser): Observable<IUser> {
     return this.http.post<IUser>(`${this.apiUrl}/insertusers`, user,{ headers: this.autService.getHeaders() });
