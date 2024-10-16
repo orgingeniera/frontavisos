@@ -17,6 +17,7 @@ export class UserListComponent implements OnInit {
   currentPage: number = 1; // Página actual
   perPage: number = 10;
   perPageOptions: number[] = [10, 20, 50, 100];
+  searchTerm: string = ''; 
   constructor(private userService: UserService, private router: Router) {}  // Inyectamos el servicio
 
   ngOnInit(): void {
@@ -35,7 +36,7 @@ export class UserListComponent implements OnInit {
     });
   }
   getUsers(page: number = 1): void {
-    this.userService.getUsers(page, this.perPage).subscribe(
+    this.userService.getUsers(page, this.perPage, this.searchTerm).subscribe(
       (response) => {
         this.users = response.data;
         this.totalPages = response.last_page;
@@ -46,6 +47,13 @@ export class UserListComponent implements OnInit {
       }
     );
   }
+  // Método para manejar la búsqueda
+  onSearch(event: any): void {
+   
+    this.searchTerm = event.target.value;  // Actualiza el término de búsqueda
+    this.getUsers(1);  // Llama al método de obtener usuarios con el término de búsqueda
+  }
+
   onPerPageChange(event: any): void {
     this.perPage = event.target.value;
     this.getUsers(1); // Volver a la primera página al cambiar la cantidad de registros

@@ -14,12 +14,17 @@ export class UserService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
-  getUsers(page: number, perPage: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/alluser?page=${page}&per_page=${perPage}`, { headers: this.autService.getHeaders() });
+  getUsers(page: number, perPage: number, search: string = ''): Observable<any> {
+
+    const searchParam = search ? `&search=${search}` : '';  // Si hay búsqueda, se añade al query
+    console.log(searchParam)
+    console.log(`${this.apiUrl}/alluser?page=${page}&per_page=${perPage}${searchParam}`)
+    return this.http.get<any>(`${this.apiUrl}/alluser?page=${page}&per_page=${perPage}${searchParam}`, { headers: this.autService.getHeaders() });
   }
   getAllUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(`${this.apiUrl}/getallusers`,{ headers: this.autService.getHeaders() }); // Obtiene todos los usuarios sin paginación
   }
+  
   // Método para agregar un usuario
   addUser(user: IUser): Observable<IUser> {
     return this.http.post<IUser>(`${this.apiUrl}/insertusers`, user,{ headers: this.autService.getHeaders() });
