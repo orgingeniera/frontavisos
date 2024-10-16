@@ -17,8 +17,6 @@ export class UserService {
   getUsers(page: number, perPage: number, search: string = ''): Observable<any> {
 
     const searchParam = search ? `&search=${search}` : '';  // Si hay búsqueda, se añade al query
-    console.log(searchParam)
-    console.log(`${this.apiUrl}/alluser?page=${page}&per_page=${perPage}${searchParam}`)
     return this.http.get<any>(`${this.apiUrl}/alluser?page=${page}&per_page=${perPage}${searchParam}`, { headers: this.autService.getHeaders() });
   }
   getAllUsers(): Observable<IUser[]> {
@@ -29,4 +27,11 @@ export class UserService {
   addUser(user: IUser): Observable<IUser> {
     return this.http.post<IUser>(`${this.apiUrl}/insertusers`, user,{ headers: this.autService.getHeaders() });
   }
+  getUserById(id: number): Observable<IUser> {
+    return this.http.get<IUser>(`${this.apiUrl}/getuserbyId/${id}`,{ headers: this.autService.getHeaders() });
+  }
+  updateUser(user: IUser): Observable<IUser> {
+    return this.http.put<IUser>(`${this.apiUrl}/updateuser/${user.id}`, user,{ headers: this.autService.getHeaders() }); // Asegúrate de que el endpoint sea correcto
+  }
+  
 }

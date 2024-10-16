@@ -3,6 +3,7 @@ import { UserService } from '../../servicios/user.service';  // Importamos el se
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import * as XLSX from 'xlsx';
+import { IUser } from 'src/app/interfaces/user.interface';
 
 @Component({
   selector: 'app-user-list',
@@ -58,9 +59,11 @@ export class UserListComponent implements OnInit {
     this.perPage = event.target.value;
     this.getUsers(1); // Volver a la primera página al cambiar la cantidad de registros
   }
-  editUser(user: any): void {
-    console.log("editar")
-    }
+  editUser(user: IUser): void {
+    // Redirigir a la página de edición usando el ID del usuario
+    this.router.navigate(['/modificar', user.id]);
+   
+  }
     
   deleteUser(userId: number): void {
     console.log("eliinar")
