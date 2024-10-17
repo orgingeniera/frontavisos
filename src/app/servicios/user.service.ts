@@ -33,5 +33,7 @@ export class UserService {
   updateUser(user: IUser): Observable<IUser> {
     return this.http.put<IUser>(`${this.apiUrl}/updateuser/${user.id}`, user,{ headers: this.autService.getHeaders() }); // Asegúrate de que el endpoint sea correcto
   }
-  
+  deleteUser(userId: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/deleteusers/${userId}/delete`, {} ,{ headers: this.autService.getHeaders() }); // URL del backend
+  }
 }
