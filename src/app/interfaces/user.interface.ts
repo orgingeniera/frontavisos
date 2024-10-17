@@ -8,6 +8,8 @@ export interface IUser {
     apellido: string;
     telefono: string;
     direccion: string;
+    identificacion: string;
+    
 
    
   }

@@ -28,7 +28,8 @@ export class InsertUserComponent  {
       telefono: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      direccion: [''],
+      identificacion: ['', Validators.required],
+      direccion: ['', Validators.required],
       confirmPassword: [''],
       estado: [''],
     });
@@ -50,7 +51,8 @@ export class InsertUserComponent  {
         telefono: user.telefono,
         direccion: user.direccion,
         email: user.email,
-        estado: user.estado === '1' ? '1' : '2' // Convertir a número
+        identificacion: user.identificacion,
+       
     }); // Poblamos el formulario con los datos del usuario
     }, error => {
       this.errorMessage = 'Error al cargar los datos del usuario';
@@ -70,9 +72,10 @@ export class InsertUserComponent  {
       const userFormValues : IUser = this.userForm.value;
       const user: IUser = {
         ...userFormValues,
-        estado: this.isEditMode ? userFormValues.estado : '1',  // Asignar el valor 1 al campo estado
+        ...(this.isEditMode ? {} : { estado: '1' }),
         ...(this.isEditMode ? { id: this.userId } : {}),
       };
+      console.log(user)
       if (this.isEditMode) {
         // Si estamos en modo edición, modificamos el usuario
         this.userService.updateUser(user).subscribe({
@@ -103,6 +106,7 @@ export class InsertUserComponent  {
       });
     }
     } else {
+      this.userForm.markAllAsTouched();
       this.errorMessage = 'Por favor, llena todos los campos correctamente';
     }
 

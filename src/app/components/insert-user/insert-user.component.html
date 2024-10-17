@@ -5,6 +5,20 @@
       {{ errorMessage }}
     </div>
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="identificacion" class="form-label">identificación:</label>
+        <input 
+          id="identificacion" 
+          formControlName="identificacion" 
+          type="text" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': userForm.get('identificacion')?.invalid && userForm.get('identificacion')?.touched}"
+          placeholder="Ingresa tu identificación"
+        />
+        <div *ngIf="userForm.get('identificacion')?.invalid && userForm.get('identificacion')?.touched" class="invalid-feedback">
+          La identificación es requerida.
+        </div>
+      </div>
       <!-- Nombre -->
       <div class="mb-3">
         <label for="name" class="form-label">Nombre:</label>
@@ -78,21 +92,6 @@
           Debes ingresar un email válido.
         </div>
       </div>
-      <div class="mb-3">
-        <label for="estado" class="form-label">Estado:</label>
-        <select 
-          id="estado" 
-          formControlName="estado" 
-          class="form-select" 
-          [ngClass]="{'is-invalid': userForm.get('estado')?.invalid && userForm.get('estado')?.touched}"
-        >
-            <option [ngValue]="'1'">Activo</option>
-            <option [ngValue]="'2'">Inactivo</option>
-        </select>
-        <div *ngIf="userForm.get('estado')?.invalid && userForm.get('estado')?.touched" class="invalid-feedback">
-            El estado es requerido.
-        </div>
-    </div>
     
       <!-- Contraseña -->
       <div class="mb-3">

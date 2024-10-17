@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { IUser } from 'src/app/interfaces/user.interface';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
@@ -65,12 +66,29 @@ export class UserListComponent implements OnInit {
    
   }
     
-  deleteUser(userId: number): void {
-    console.log("eliinar")
-  }
+ // Método para eliminar usuario
+ deleteUser(userId: number) {
+  const conf = confirm("Esta seguro de eliminar este registro: " + userId)
+  if(conf){
+      this.userService.deleteUser(userId).pipe(
+        catchError((error) => {
+          console.error('Error al eliminar el usuario', error);
+          return of(null); // Controlar errores
+        })
+      ).subscribe(response => {
+        if (response) {
+          console.log('Usuario eliminado con éxito');
+          this.refreshUserList(); // Refrescar la lista de usuarios después de eliminar
+        }
+      });
+    }
+}
+refreshUserList() {
+  // Aquí deberías volver a obtener los usuarios filtrando aquellos con estado diferente a 2
+  this.userService.getAllUsers().subscribe(data => {
+    this.users = data.filter(IUser => IUser.estado !== '2'); // Mostrar solo usuarios con estado != 2
+  });
+}
   
-  
-  insertUser(): void {
-    console.log("insertar")
-  }
+
 }
