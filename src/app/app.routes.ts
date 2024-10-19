@@ -23,6 +23,10 @@ export const routes: Routes = [
         loadChildren: () => import('./components/user-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
+        path: 'uploadfileexcel',
+        loadChildren: () => import('./components/excel-upload/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
         path: 'insertar',
         loadChildren: () => import('./components/insert-user/routes').then((m) => m.routes),canActivate: [authGuard]
       },
