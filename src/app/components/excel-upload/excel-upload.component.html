@@ -1,0 +1,15 @@
+<div class="container mt-5">
+    <h2 class="text-center">Cargar archivo Excel</h2>
+    <div class="mb-3">
+        <input type="file" class="form-control" name="file" (change)="onFileSelected($event)" accept=".xls,.xlsx,.csv" />
+    </div>
+    <button class="btn btn-primary" (click)="onUpload()" [disabled]="!selectedFile">Subir archivo</button>
+
+    <div *ngIf="message" class="mt-3">
+        <div class="alert" [ngClass]="{'alert-success': isSuccess, 'alert-danger': !isSuccess}">
+            {{ message }}
+        </div>
+    </div>
+</div>
+
+  
