@@ -1,0 +1,148 @@
+<div class="insert-user-form container mt-5">
+  <h2 class="text-center mb-4">{{ isEditMode ? 'Modificar Usuario' : 'Insertar Usuario' }}</h2>
+
+    <div *ngIf="errorMessage" class="mt-3 text-center text-danger">
+      {{ errorMessage }}
+    </div>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+      <!-- Nombre -->
+      <div class="mb-3">
+        <label for="name" class="form-label">Nombre:</label>
+        <input 
+          id="name" 
+          formControlName="name" 
+          type="text" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': userForm.get('name')?.invalid && userForm.get('name')?.touched}"
+          placeholder="Ingresa tu nombre"
+        />
+        <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched" class="invalid-feedback">
+          El nombre es requerido.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="apellido" class="form-label">Apellido:</label>
+        <input 
+          id="apellido" 
+          formControlName="apellido" 
+          type="text" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': userForm.get('apellido')?.invalid && userForm.get('apellido')?.touched}"
+          placeholder="Ingresa tu apellido"
+        />
+        <div *ngIf="userForm.get('apellido')?.invalid && userForm.get('apellido')?.touched" class="invalid-feedback">
+          El apellido es requerido.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="telefono" class="form-label">Teléfono:</label>
+        <input 
+          id="telefono" 
+          formControlName="telefono" 
+          type="text" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': userForm.get('telefono')?.invalid && userForm.get('telefono')?.touched}"
+          placeholder="Ingresa tu teléfono"
+        />
+        <div *ngIf="userForm.get('telefono')?.invalid && userForm.get('telefono')?.touched" class="invalid-feedback">
+          El teléfono es requerido.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="direccion" class="form-label">Dirección:</label>
+        <input 
+          id="direccion" 
+          formControlName="direccion" 
+          type="text" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': userForm.get('direccion')?.invalid && userForm.get('direccion')?.touched}"
+          placeholder="Ingresa tu dirección"
+        />
+        <div *ngIf="userForm.get('direccion')?.invalid && userForm.get('direccion')?.touched" class="invalid-feedback">
+          La dirección es requerida.
+        </div>
+      </div>
+  
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input 
+          id="email" 
+          formControlName="email" 
+          type="email" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': userForm.get('email')?.invalid && userForm.get('email')?.touched}"
+          placeholder="Ingresa tu email"
+        />
+        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="invalid-feedback">
+          Debes ingresar un email válido.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="estado" class="form-label">Estado:</label>
+        <select 
+          id="estado" 
+          formControlName="estado" 
+          class="form-select" 
+          [ngClass]="{'is-invalid': userForm.get('estado')?.invalid && userForm.get('estado')?.touched}"
+        >
+            <option [ngValue]="'1'">Activo</option>
+            <option [ngValue]="'2'">Inactivo</option>
+        </select>
+        <div *ngIf="userForm.get('estado')?.invalid && userForm.get('estado')?.touched" class="invalid-feedback">
+            El estado es requerido.
+        </div>
+    </div>
+    
+      <!-- Contraseña -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña:</label>
+        <input 
+          id="password" 
+          formControlName="password" 
+          type="password" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': userForm.get('password')?.invalid && userForm.get('password')?.touched}"
+          placeholder="Ingresa una contraseña"
+        />
+        <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="invalid-feedback">
+          La contraseña es requerida.
+        </div>
+      </div>
+      <!-- Confirmar Contraseña -->
+    <div class="mb-3">
+      <label for="confirmPassword" class="form-label">Confirmar Contraseña:</label>
+      <input 
+        id="confirmPassword" 
+        formControlName="confirmPassword" 
+        type="password" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': userForm.get('confirmPassword')?.invalid && userForm.get('confirmPassword')?.touched}"
+        placeholder="Confirma tu contraseña"
+      />
+      <div *ngIf="userForm.get('confirmPassword')?.invalid && userForm.get('confirmPassword')?.touched" class="invalid-feedback">
+        Debes confirmar la contraseña.
+      </div>
+      <div *ngIf="!passwordsMatch && userForm.get('confirmPassword')?.touched" class="invalid-feedback">
+        Las contraseñas no coinciden.
+      </div>
+    </div>
+
+      <!-- Botón de envío -->
+      <div class="text-center">
+        <button 
+          type="submit" 
+          class="btn btn-primary w-100"
+          >
+          {{ isEditMode ? 'Modificar Usuario' : 'Insertar Usuario' }}
+        </button>
+      </div>
+    </form>
+  
+    <!-- Indicadores de carga y error -->
+    <div *ngIf="isLoading" class="mt-3 text-center text-info">
+      Insertando usuario...
+    </div>
+   
+  </div>
+  

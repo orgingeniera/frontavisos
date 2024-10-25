@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { ExcelUploadService } from '../../servicios/excel-upload.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-excel-upload',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './excel-upload.component.html',
   styleUrl: './excel-upload.component.scss'
 })
@@ -13,7 +14,7 @@ export class ExcelUploadComponent {
   selectedFile: File | null = null;
   message: string | null = null;
   isSuccess: boolean = false;
-
+  isLoading: boolean = false;  
   constructor(private excelUploadService: ExcelUploadService) { }
 
   onFileSelected(event: Event) {
@@ -25,8 +26,10 @@ export class ExcelUploadComponent {
 
   onUpload(): void {
     if (this.selectedFile) {
+      this.isLoading = true; 
         this.excelUploadService.uploadExcel(this.selectedFile).subscribe(
           (response: any) => {
+            this.isLoading = false;
             if (response.message === "1") {
               this.message = "Datos cargados con éxito.";
               this.isSuccess = true;
@@ -36,6 +39,7 @@ export class ExcelUploadComponent {
             }
         },
         (error) => {
+          this.isLoading = false;
           this.message = "Ocurrió un error al cargar el archivo.";
           this.isSuccess = false;
         }

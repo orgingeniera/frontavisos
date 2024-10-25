@@ -9,6 +9,10 @@
                <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
                 {{ errorMessage }}
               </div>
+              <!-- Indicador de carga -->
+              <div *ngIf="isLoading" class="alert alert-info" role="alert">
+                Cargando, por favor espere...
+              </div>
               <form cForm (submit)="login()">
                 <h1>Login</h1>
                 <p class="text-body-secondary">Sign In to your account</p>

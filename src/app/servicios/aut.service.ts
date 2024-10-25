@@ -23,16 +23,11 @@ export class AutService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
-   getHeaders(): HttpHeaders {
-    const token = this.getToken(); // Obtén el token del LocalStorage
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`, // Agrega el token en los headers
-    });
-  }
+   
  // Método para cerrar sesión
  logout(): Observable<any> {
   localStorage.removeItem('token');
-  return this.http.post(`${this.apiUrl}/logout`, {}, { headers: this.getHeaders() }); // Envío de la solicitud
+  return this.http.post(`${this.apiUrl}/logout`, {}); // Envío de la solicitud
 
 }
 
