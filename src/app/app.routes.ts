@@ -27,6 +27,14 @@ export const routes: Routes = [
         loadChildren: () => import('./components/excel-upload/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
+        path: 'avisosytableroslista',
+        loadChildren: () => import('./components/avisosytablero-list/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'insertardelanul',
+        loadChildren: () => import('./components/declaracionanual/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
         path: 'insertar',
         loadChildren: () => import('./components/insert-user/routes').then((m) => m.routes),canActivate: [authGuard]
       },

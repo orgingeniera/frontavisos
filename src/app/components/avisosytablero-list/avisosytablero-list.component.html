@@ -1,0 +1,120 @@
+<div class="container mt-4">
+    <h2>Lista de Usuarios</h2>
+    <button class="btn btn-primary mb-3 me-2" [routerLink]="['/insertardelanul']">Insertar Declarion anual</button>
+    <!-- Botón para exportar a Excel -->
+    <button class="btn btn-success mb-3" (click)="exportToExcel()">Exportar a Excel</button>
+ 
+    <!-- Selector de cantidad de registros por página -->
+    <div class="mb-3 d-flex align-items-center">
+      <!-- Selector de registros por página -->
+      <div class="me-3">
+        <label for="perPageSelect">Registros por página:</label>
+        <select id="perPageSelect" class="form-select" (change)="onPerPageChange($event)" style="width: auto;">
+          <option *ngFor="let option of perPageOptions" [value]="option">{{ option }}</option>
+        </select>
+      </div>
+    
+      <!-- Campo de búsqueda alineado al extremo derecho -->
+      <div class="ms-auto">
+        <label for="searchInput">Buscar usuario:</label>
+        <input type="text" id="searchInput" class="form-control" (input)="onSearch($event)" 
+               placeholder="Escriba el nombre o correo" style="width: 250px;">
+      </div>
+    </div>
+    <div style="overflow-x: auto;">
+    <table class="table table-striped" *ngIf="avisosytablero.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>N° Declaración</th>
+          <th>Vigencia</th>
+          <th>Fecha Declaración</th>
+          <th>NIT Contribuyente</th>
+          <th>Razón Social</th>
+          <th>Régimen</th>
+          <th>Dirección</th>
+          <th>Ciudad</th>
+          <th>Correo Electrónico</th>
+          <th>Total Ingresos Nacionales</th>
+          <th>Menos Ingresos Fuera Municipio</th>
+          <th>Total Ingresos Municipio</th>
+          <th>Menos Ingresos Rebajas</th>
+          <th>Menos Ingresos Exportaciones</th>
+          <th>Menos Ingresos Venta Activos</th>
+          <th>Menos Ingresos No Gravados</th>
+          <th>Menos Ingresos Exentos</th>
+          <th>Total Ingresos Gravables</th>
+          <th>Total Impuesto</th>
+          <th>Capacidad KW</th>
+          <th>Impuesto Ley 56</th>
+          <th>Total Industria Comercio</th>
+          <th>Impuesto Avisos Tableros</th>
+          <th>Pago Unidades Adicionales</th>
+          <th>Sobretasa Bomberil</th>
+          <th>Sobretasa Seguridad</th>
+          <th>Total Impuesto Cargo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let avisos of avisosytablero">
+          <td>{{ avisos.id }}</td>
+          <td>{{ avisos.n_declaracion }}</td>
+          <td>{{ avisos.vigencia }}</td>
+          <td>{{ avisos.fecha_declaracion }}</td>
+          <td>{{ avisos.nit_contribuyente }}</td>
+          <td>{{ avisos.razon_social }}</td>
+          <td>{{ avisos.regimen }}</td>
+          <td>{{ avisos.direccion }}</td>
+          <td>{{ avisos.ciudad }}</td>
+          <td>{{ avisos.correo_electronico }}</td>
+          <td>{{ avisos.total_ingresos_nacionales }}</td>
+          <td>{{ avisos.menos_ingresos_fuera_municipio }}</td>
+          <td>{{ avisos.total_ingresos_municipio }}</td>
+          <td>{{ avisos.menos_ingresos_rebajas }}</td>
+          <td>{{ avisos.menos_ingresos_exportaciones }}</td>
+          <td>{{ avisos.menos_ingresos_venta_activos }}</td>
+          <td>{{ avisos.menos_ingresos_no_gravados }}</td>
+          <td>{{ avisos.menos_ingresos_exentos }}</td>
+          <td>{{ avisos.total_ingresos_gravables }}</td>
+          <td>{{ avisos.total_impuesto }}</td>
+          <td>{{ avisos.capacidad_kw }}</td>
+          <td>{{ avisos.impuesto_ley_56 }}</td>
+          <td>{{ avisos.total_industria_comercio }}</td>
+          <td>{{ avisos.impuesto_avisos_tableros }}</td>
+          <td>{{ avisos.pago_unidades_adicionales }}</td>
+          <td>{{ avisos.sobretasa_bomberil }}</td>
+          <td>{{ avisos.sobretasa_seguridad }}</td>
+          <td>{{ avisos.total_impuesto_cargo }}</td>
+          <td>
+            <button class="btn btn-warning me-2" (click)="editUser(avisos)">Actualizar</button>
+            <button class="btn btn-danger" (click)="deleteUser(avisos.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    
+    
+   
+    <nav *ngIf="totalPages > 1">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="getAvisosytableros(currentPage - 1)">Anterior</a>
+        </li>
+    
+        <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i + 1">
+          <a class="page-link" (click)="getAvisosytableros(i + 1)">{{ i + 1 }}</a>
+        </li>
+    
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="getAvisosytableros(currentPage + 1)">Siguiente</a>
+        </li>
+      </ul>
+    </nav>
+    <div *ngIf="avisosytablero.length === 0">
+      No hay avissos y tableros disponibles.
+    </div>
+  </div>
+  
+  

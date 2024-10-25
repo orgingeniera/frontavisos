@@ -19,14 +19,18 @@ export class LoginComponent {
     password: ''
   };
   errorMessage: string = '';
+  isLoading: boolean = false;
   constructor(private authService: AutService, private router: Router) {}
   login(): void {
+    this.isLoading = true;  // Activa el estado de cargando
     this.authService.login(this.credentials).subscribe(
       (response) => {
+        this.isLoading = false;
         this.authService.setToken(response.token);
         this.router.navigate(['/dashboard']);  // Redirige a un dashboard o página protegida
       },
       (error) => {
+        this.isLoading = false;
         this.errorMessage = 'Verifique los datos ingresados, por favor.';
         console.error('Error en el inicio de sesión:', error);
       }
