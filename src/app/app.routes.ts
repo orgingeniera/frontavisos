@@ -43,6 +43,10 @@ export const routes: Routes = [
         loadChildren: () => import('./components/insert-user/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
+        path: 'modificardeclaracionanual/:id',  // Nueva ruta para modificar
+        loadChildren: () => import('./components/declaracionanual/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
         path: 'theme',
         loadChildren: () => import('./views/theme/routes').then((m) => m.routes),canActivate: [authGuard]
       },
