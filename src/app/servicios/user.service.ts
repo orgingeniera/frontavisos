@@ -33,6 +33,6 @@ export class UserService {
     return this.http.put<IUser>(`${this.apiUrl}/updateuser/${user.id}`, user); // Asegúrate de que el endpoint sea correcto
   }
   deleteUser(userId: number): Observable<any> {
-    return this.http.put(`${this.apiUrl}/deleteusers/${userId}/delete`, {} ,{ headers: this.autService.getHeaders() }); // URL del backend
+    return this.http.put(`${this.apiUrl}/deleteusers/${userId}/delete`, {}); // URL del backend
   }
 }

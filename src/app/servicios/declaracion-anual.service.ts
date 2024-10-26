@@ -30,7 +30,8 @@ export class DeclaracionAnualService {
     return this.http.get<Iavisosytablero>(`${this.apiUrl}/getdeclaracionanualbyid/${id}`);
   }
   updategetDeclaraacionAnual(declaracionanual: Iavisosytablero): Observable<Iavisosytablero> {
-    return this.http.put<Iavisosytablero>(`${this.apiUrl}/updatdeclaracionanual/${declaracionanual.id}`, declaracionanual); // Asegúrate de que el endpoint sea correcto
+    return this.http.put<Iavisosytablero>(`${this.apiUrl}/updatdeclaracionanual/${declaracionanual.id}`, declaracionanual); 
   }
+  
   
 }
