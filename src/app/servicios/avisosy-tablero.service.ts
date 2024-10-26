@@ -32,5 +32,11 @@ export class AvisosyTableroService {
   updateUser(user: Iavisosytablero): Observable<Iavisosytablero> {
     return this.http.put<Iavisosytablero>(`${this.apiUrl}/updateuser/${user.id}`, user); // Asegúrate de que el endpoint sea correcto
   }
+  deleteDeclaraacionAnual(declaracionanualId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/deletedeclaracionanual/${declaracionanualId}/delete`, {}); 
+  }
+  getAllclaracionanual(): Observable<Iavisosytablero[]> {
+    return this.http.get<Iavisosytablero[]>(`${this.apiUrl}/getallclaracionanual`); // Obtiene todos los usuarios sin paginación
+  }
   
 }

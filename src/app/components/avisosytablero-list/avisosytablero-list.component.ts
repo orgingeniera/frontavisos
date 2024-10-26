@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { Iavisosytablero } from '../../interfaces/avisosytablero.interface';
-
+import { catchError, of } from 'rxjs';
 @Component({
   selector: 'app-avisosytablero-list',
   standalone: true,
@@ -65,8 +65,35 @@ export class avisosytableroListComponent implements OnInit {
    
   }
     
-  deleteUser(userId: number): void {
-    console.log("eliinar")
+  deleteDeclaracionAnual(declaracionanualId: number) {
+    const conf = confirm("¿Está seguro de eliminar este registro: " + declaracionanualId + "?");
+    if (conf) {
+      this.avisosyTableroService.deleteDeclaraacionAnual(declaracionanualId).pipe(
+        catchError((error: any) => {  // Especifica 'any' como tipo para 'error'
+          console.error('Error al eliminar el usuario', error);
+          return of(null); // Controlar errores
+        })
+      ).subscribe(response => {
+        if (response) {
+          console.log('Usuario eliminado con éxito');
+          this.refreshUserList(); // Refrescar la lista de usuarios después de eliminar
+        }
+      });
+    }
+  }
+  
+  refreshUserList() {
+    // Aquí deberías volver a obtener todos los usuarios
+    this.avisosyTableroService.getAllclaracionanual().subscribe(
+      (data: Iavisosytablero[]) => {
+        // Actualiza directamente la variable con los datos recibidos
+        this.avisosytablero = data; 
+         // Opcional: muestra la lista actualizada en la consola
+      },
+      (error) => {
+        console.error('Error al obtener la lista de declaracion anual', error); // Manejo de errores
+      }
+    );
   }
   
   
