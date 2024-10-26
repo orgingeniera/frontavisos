@@ -21,7 +21,7 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'modificarelanul/:id',
+        path: 'modificardeclaracionanual/:id',
         loadComponent: () => import('./declaracionanual.component').then(m => m.DeclaracionanualComponent),
         data: {
           title: 'modificar declaración anual'

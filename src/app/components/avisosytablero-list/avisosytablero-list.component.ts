@@ -59,9 +59,9 @@ export class avisosytableroListComponent implements OnInit {
     this.perPage = event.target.value;
     this.getAvisosytableros(1); // Volver a la primera página al cambiar la cantidad de registros
   }
-  editUser(avisosytablero: Iavisosytablero): void {
+  editModificardeclaracionanual(avisosytablero: Iavisosytablero): void {
     // Redirigir a la página de edición usando el ID del usuario
-    this.router.navigate(['/modificar', avisosytablero.id]);
+    this.router.navigate(['/modificardeclaracionanual', avisosytablero.id]);
    
   }
     
