@@ -29,26 +29,28 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Nombre</th>
+          <th>identificación</th>
+          <th>Nombre</th>        
           <th>Apellido</th>
           <th>Telefono</th>
           <th>Email</th>
           <th>Direccion</th>
           <th>Fecha de Creación</th>
-          <th>Estado</th>
+        
           <th>Acciones</th> 
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of users">
           <td>{{ user.id }}</td>
+          <td>{{ user.identificacion }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.apellido }}</td>
           <td>{{ user.telefono }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.direccion }}</td>
           <td>{{ user.created_at | date }}</td>
-          <td>{{ user.estado === '1' ? 'Activo' : (user.estado === '2' ? 'Inactivo' : 'Desconocido') }}</td>
+          
           <td>
             <button class="btn btn-warning me-2" (click)="editUser(user)">Actualizar</button>
             <button class="btn btn-danger" (click)="deleteUser(user.id)">Eliminar</button>
