@@ -19,9 +19,11 @@ export class avisosytableroListComponent implements OnInit {
   perPage: number = 10;
   perPageOptions: number[] = [10, 20, 50, 100];
   searchTerm: string = ''; 
+  Math = Math; 
   constructor(private avisosyTableroService: AvisosyTableroService, private router: Router) {}  // Inyectamos el servicio
 
   ngOnInit(): void {
+   
     this.getAvisosytableros();
   }
 
@@ -97,7 +99,18 @@ export class avisosytableroListComponent implements OnInit {
   }
   
   
-  insertUser(): void {
-    console.log("insertar")
+  calcularImpuesto(avisos: any): number {
+    
+    const resultadoSinRedondear = avisos.total_industria_comercio * 0.15; // Calcula el 15%
+     const resultado = Math.round(resultadoSinRedondear / 1000) * 1000; // Redondear a la centena más cercana
+   
+     return resultado;
   }
+  isImpuestoIncorrecto(avisos: any): boolean {
+    const impuestoCalculado = this.calcularImpuesto(avisos);
+     console.log((Number(avisos.impuesto_avisos_tableros) !== impuestoCalculado && avisos.total_industria_comercio > 0) || 
+     (Number(avisos.impuesto_avisos_tableros) === 0 || !Number(avisos.impuesto_avisos_tableros))) 
+   return (Number(avisos.impuesto_avisos_tableros) !== impuestoCalculado && avisos.total_industria_comercio > 0) || 
+           (Number(avisos.impuesto_avisos_tableros) === 0 || !Number(avisos.impuesto_avisos_tableros));
+}
 }
