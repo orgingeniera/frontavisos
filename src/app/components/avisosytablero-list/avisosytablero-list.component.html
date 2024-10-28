@@ -57,7 +57,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let avisos of avisosytablero">
+        <tr *ngFor="let avisos of avisosytablero" [ngClass]="{ 'table-danger': isImpuestoIncorrecto(avisos) }">
           <td>{{ avisos.id }}</td>
           <td>{{ avisos.n_declaracion }}</td>
           <td>{{ avisos.vigencia }}</td>
@@ -81,7 +81,9 @@
           <td>{{ avisos.capacidad_kw }}</td>
           <td>{{ avisos.impuesto_ley_56 }}</td>
           <td>{{ avisos.total_industria_comercio }}</td>
-          <td>{{ avisos.impuesto_avisos_tableros }}</td>
+          <td>
+            {{ avisos.impuesto_avisos_tableros }}
+          </td>
           <td>{{ avisos.pago_unidades_adicionales }}</td>
           <td>{{ avisos.sobretasa_bomberil }}</td>
           <td>{{ avisos.sobretasa_seguridad }}</td>
