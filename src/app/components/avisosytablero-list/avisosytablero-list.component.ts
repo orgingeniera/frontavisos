@@ -61,11 +61,7 @@ export class avisosytableroListComponent implements OnInit {
     this.perPage = event.target.value;
     this.getAvisosytableros(1); // Volver a la primera página al cambiar la cantidad de registros
   }
-  editModificardeclaracionanual(avisosytablero: Iavisosytablero): void {
-    // Redirigir a la página de edición usando el ID del usuario
-    this.router.navigate(['/modificardeclaracionanual', avisosytablero.id]);
-   
-  }
+ 
     
   deleteDeclaracionAnual(declaracionanualId: number) {
     const conf = confirm("¿Está seguro de eliminar este registro: " + declaracionanualId + "?");
@@ -108,9 +104,16 @@ export class avisosytableroListComponent implements OnInit {
   }
   isImpuestoIncorrecto(avisos: any): boolean {
     const impuestoCalculado = this.calcularImpuesto(avisos);
-     console.log((Number(avisos.impuesto_avisos_tableros) !== impuestoCalculado && avisos.total_industria_comercio > 0) || 
-     (Number(avisos.impuesto_avisos_tableros) === 0 || !Number(avisos.impuesto_avisos_tableros))) 
-   return (Number(avisos.impuesto_avisos_tableros) !== impuestoCalculado && avisos.total_industria_comercio > 0) || 
+       return (Number(avisos.impuesto_avisos_tableros) !== impuestoCalculado && avisos.total_industria_comercio > 0) || 
            (Number(avisos.impuesto_avisos_tableros) === 0 || !Number(avisos.impuesto_avisos_tableros));
 }
+
+openUploadImageForm(declaracionId: number): void {
+  this.router.navigate(['/uploadimage', declaracionId]);
+}
+ editModificardeclaracionanual(avisosytablero: Iavisosytablero): void {
+    // Redirigir a la página de edición usando el ID del usuario
+    this.router.navigate(['/modificardeclaracionanual', avisosytablero.id]);
+   
+  }
 }

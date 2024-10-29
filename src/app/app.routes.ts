@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './layout';
-import { authGuard } from './guards/auth.guard'
+import { authGuard } from './guards/auth.guard';
+import { UploadImageComponent } from './components/upload-image/upload-image.component'; // Importar el componente
 export const routes: Routes = [
   {
     path: '',
@@ -45,6 +46,14 @@ export const routes: Routes = [
       {
         path: 'modificardeclaracionanual/:id',  // Nueva ruta para modificar
         loadChildren: () => import('./components/declaracionanual/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'uploadimage/:id', // Nueva ruta para cargar directamente el componente
+        component: UploadImageComponent,
+        canActivate: [authGuard], // Mantener la protección del guard
+        data: {
+          title: 'Modificar Imagen' // Puedes ajustar el título según lo necesites
+        }
       },
       {
         path: 'theme',
