@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Iavisosytablero } from '../interfaces/avisosytablero.interface';
-
+import { IDeclaracionAnulImage } from '../interfaces/image.interface';
 @Injectable({
   providedIn: 'root'  // Hace que el servicio esté disponible en toda la aplicación
 })
@@ -33,5 +33,14 @@ export class DeclaracionAnualService {
     return this.http.put<Iavisosytablero>(`${this.apiUrl}/updatdeclaracionanual/${declaracionanual.id}`, declaracionanual); 
   }
   
+  uploadImage(formData: FormData): Observable<any> {
+    
+    return this.http.post(`${this.apiUrl}/declaracionesanul-images`, formData);
+  }
+
+  // declaracion-anual.service.ts
+    getImages(declaracionId: number) {
+      return this.http.get<IDeclaracionAnulImage[]>(`${this.apiUrl}/declaracionesanul-images/${declaracionId}`);
+    }
   
 }
