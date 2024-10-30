@@ -1,5 +1,5 @@
 <div class="container mt-4">
-    <h2>Lista de Usuarios</h2>
+    <h2>Declaración Anual</h2>
     <button class="btn btn-primary mb-3 me-2" [routerLink]="['/insertardelanul']">Insertar Declarion anual</button>
     <!-- Botón para exportar a Excel -->
     <button class="btn btn-success mb-3" (click)="exportToExcel()">Exportar a Excel</button>
@@ -7,6 +7,14 @@
     <!-- Selector de cantidad de registros por página -->
     <div class="mb-3 d-flex align-items-center">
       <!-- Selector de registros por página -->
+      <div class="me-3">
+        <label for="filterSelect" class="me-2">Filtrar por:</label>
+        <select id="filterSelect" class="form-select" (change)="onFilterChange($event)" style="width: auto;">
+          <option value="">Todos</option>
+          <option value="inexactos">Inexactos</option>
+          <option value="presuncion">Presunción de Omiso</option>
+        </select>
+      </div>
       <div class="me-3">
         <label for="perPageSelect">Registros por página:</label>
         <select id="perPageSelect" class="form-select" (change)="onPerPageChange($event)" style="width: auto;">
@@ -89,9 +97,13 @@
           <td>{{ avisos.sobretasa_seguridad }}</td>
           <td>{{ avisos.total_impuesto_cargo }}</td>
           <td>
-            <button class="btn btn-warning me-2" (click)="editModificardeclaracionanual(avisos)">Actualizar</button>
-            <button class="btn btn-danger" (click)="deleteDeclaracionAnual(avisos.id)">Eliminar</button>
-            <button class="btn btn-primary" (click)="openUploadImageForm(avisos.id)">Cargar Imagen</button>
+            <select class="form-select" (change)="onActionChange($event, avisos)">
+              <option value="">Seleccione una acción</option>
+              <option value="actualizar">Actualizar</option>
+              <option value="eliminar">Eliminar</option>
+              <option value="cargarImagen">Cargar Imagen</option>
+              <option value="reporte">Reportar</option>
+            </select>
           </td>
         </tr>
       </tbody>
@@ -117,6 +129,12 @@
     </nav>
     <div *ngIf="avisosytablero.length === 0">
       No hay avissos y tableros disponibles.
+    </div>
+    <div *ngIf="reporteData">
+      <app-reporteanual
+        [reporteData]="reporteData"
+        (close)="closeModal()"
+      ></app-reporteanual>
     </div>
   </div>
   

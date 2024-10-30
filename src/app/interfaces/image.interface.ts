@@ -5,5 +5,7 @@ export interface IDeclaracionAnulImage {
     image_path: string;
     declaracionesanul_id: number;
     image_name: string;
+    image_url: string;
+  
    
 }

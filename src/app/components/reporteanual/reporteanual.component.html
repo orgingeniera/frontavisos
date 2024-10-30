@@ -1,0 +1,26 @@
+<div class="modal" tabindex="-1" style="display: block;" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Reporte del Contribuyente</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>NIT Contribuyente:</strong> {{ reporteData.nit_contribuyente }}</p>
+          <p><strong>Razón Social:</strong> {{ reporteData.razon_social }}</p>
+          <p><strong>Total Industria y Comercio:</strong> {{ reporteData.total_industria_comercio }}</p>
+          <p><strong>Impuesto Avisos y Tableros:</strong> {{ reporteData.impuesto_avisos_tableros }}</p>
+  
+          <h6>Imágenes:</h6>
+          <div *ngFor="let imagen of reporteData.imagenes">
+            <img [src]="imagen" alt="Imagen del registro" class="img-thumbnail" style="width: 100%; margin-top: 5px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="printReport()">Imprimir</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

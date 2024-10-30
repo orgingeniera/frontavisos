@@ -5,12 +5,16 @@ import { Router, RouterModule } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { Iavisosytablero } from '../../interfaces/avisosytablero.interface';
 import { catchError, of } from 'rxjs';
+import { DeclaracionAnualService } from '../../servicios/declaracion-anual.service';
+import { IDeclaracionAnulImage } from 'src/app/interfaces/image.interface';
+import { ReporteanualComponent } from '../reporteanual/reporteanual.component';
+
 @Component({
   selector: 'app-avisosytablero-list',
   standalone: true,
   templateUrl: './avisosytablero-list.component.html',
   styleUrls: ['./avisosytablero-list.component.scss'],
-  imports: [CommonModule, RouterModule ]
+  imports: [CommonModule, RouterModule,ReporteanualComponent ]
 })
 export class avisosytableroListComponent implements OnInit {
   avisosytablero: any[] = [];  // Aquí se almacenarán los usuarios
@@ -19,8 +23,11 @@ export class avisosytableroListComponent implements OnInit {
   perPage: number = 10;
   perPageOptions: number[] = [10, 20, 50, 100];
   searchTerm: string = ''; 
-  Math = Math; 
-  constructor(private avisosyTableroService: AvisosyTableroService, private router: Router) {}  // Inyectamos el servicio
+  Math = Math;
+  filterType: string = '';
+  reporteData: any = null;
+  
+  constructor(private declaracionAnualService: DeclaracionAnualService, private avisosyTableroService: AvisosyTableroService, private router: Router) {}  // Inyectamos el servicio
 
   ngOnInit(): void {
    
@@ -38,10 +45,32 @@ export class avisosytableroListComponent implements OnInit {
       XLSX.writeFile(workbook, 'AvisosyTableros.xlsx');
     });
   }
+  closeModal(): void {
+    // Lógica para cerrar el modal
+    this.reporteData = null; // Restablecemos la variable para cerrar el modal
+  }
+  onFilterChange(event: any): void {
+    this.filterType = event.target.value;  // Almacena el tipo de filtro seleccionado
+    this.getAvisosytableros(1);  // Llama nuevamente a la función para aplicar el filtro
+  }
+
   getAvisosytableros(page: number = 1): void {
     this.avisosyTableroService.getAvisosytableros(page, this.perPage, this.searchTerm).subscribe(
       (response) => {
-        this.avisosytablero = response.data;
+        let filteredData = response.data;
+
+        if (this.filterType === 'inexactos') {
+          // Filtra registros donde total_industria_comercio * 0.15 sea diferente de impuesto_avisos_tableros
+          filteredData = filteredData.filter((avisos: any) =>
+            this.calcularImpuesto(avisos) !== Number(avisos.impuesto_avisos_tableros) && Number(avisos.impuesto_avisos_tableros) > 0
+          );
+        } else if (this.filterType === 'presuncion') {
+          // Filtra registros donde impuesto_avisos_tableros está en cero o vacío
+          filteredData = filteredData.filter((avisos: any) => !Number(avisos.impuesto_avisos_tableros) || Number(avisos.impuesto_avisos_tableros) === 0
+          );
+        }
+
+        this.avisosytablero = filteredData;
         this.totalPages = response.last_page;
         this.currentPage = response.current_page;
       },
@@ -116,4 +145,57 @@ openUploadImageForm(declaracionId: number): void {
     this.router.navigate(['/modificardeclaracionanual', avisosytablero.id]);
    
   }
+  
+  mostrarReporte(avisos: any): void {
+    const reporteData = {
+      nit_contribuyente: avisos.nit_contribuyente,
+      razon_social: avisos.razon_social,
+      total_industria_comercio: avisos.total_industria_comercio,
+      impuesto_avisos_tableros: avisos.impuesto_avisos_tableros,
+      imagenes:  [] as string[] // Inicialmente vacío, se llenará con las rutas de las imágenes
+    };
+  
+    // Llamar al servicio para obtener las imágenes asociadas
+    this.declaracionAnualService.getImages(avisos.id).subscribe(
+      (response: IDeclaracionAnulImage[] ) => {
+       
+        reporteData.imagenes = response.map(image => image.image_url); // Extrae la ruta de cada imagen
+       // console.log("Reporte del registro con imágenes:", reporteData);
+        this.reporteData = reporteData;
+        // Aquí puedes abrir un modal o mostrar los datos como prefieras
+        // Ejemplo: this.openReportModal(reporteData);
+      },
+      (error) => {
+        // Verifica si el error es el mensaje esperado
+          if (error.status === 404 && error.error?.message === "No se encontraron imágenes para esta declaración.") {
+            console.warn('No se encontraron imágenes para esta declaración.');
+            reporteData.imagenes = []; // Mantén las imágenes como un array vacío
+            this.reporteData = reporteData; // Aún así, asigna los datos para mostrar el popup sin imágenes
+          } else {
+            console.error('Error al cargar las imágenes:', error);
+          }
+      }
+    );
+  }
+  
+  onActionChange(event: any, avisos: any): void {
+    const action = event.target.value;
+    switch(action) {
+      case 'actualizar':
+        this.editModificardeclaracionanual(avisos);
+        break;
+      case 'eliminar':
+        this.deleteDeclaracionAnual(avisos.id);
+        break;
+      case 'cargarImagen':
+        this.openUploadImageForm(avisos.id);
+        break;
+      case 'reporte':
+        this.mostrarReporte(avisos);
+      break;
+    }
+    // Restablece el valor del <select> para que vuelva a la opción predeterminada
+    event.target.value = '';
+  }
+  
 }

@@ -33,7 +33,11 @@ export class UploadImageComponent implements OnInit {
         this.images = response; // Asignar las imágenes a la variable
       },
       (error) => {
-        console.error('Error al cargar las imágenes:', error);
+        if (error.status === 404 && error.error?.message === "No se encontraron imágenes para esta declaración.") {
+          console.warn('No se encontraron imágenes para esta declaración.');
+        } else {
+          console.error('Error al cargar las imágenes:', error);
+        }
       }
     );
   }
