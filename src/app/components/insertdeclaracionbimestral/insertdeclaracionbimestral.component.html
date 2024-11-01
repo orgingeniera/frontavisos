@@ -1,0 +1,320 @@
+<div class="insert-user-form container mt-5">
+  <h2 class="text-center mb-4">{{ isEditMode ? 'Modificar Declaración Anual' : 'Insertar Declaración Anual' }}</h2>
+
+  <div *ngIf="errorMessage" class="mt-3 text-center text-danger">
+    {{ errorMessage }}
+  </div>
+
+  <form [formGroup]="declaracioanualForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+    <!-- n_declaracion -->
+    <div class="mb-3">
+      <label for="n_declaracion" class="form-label">Número de Declaración:</label>
+      <input 
+        id="n_declaracion" 
+        formControlName="n_declaracion" 
+        type="text" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': declaracioanualForm.get('n_declaracion')?.invalid && declaracioanualForm.get('n_declaracion')?.touched}"
+        placeholder="Ingresa el número de declaración"
+      />
+      <div *ngIf="declaracioanualForm.get('n_declaracion')?.invalid && declaracioanualForm.get('n_declaracion')?.touched" class="invalid-feedback">
+        El número de declaración es requerido.
+      </div>
+    </div>
+
+    <!-- vigencia -->
+    <div class="mb-3">
+      <label for="vigencia" class="form-label">Vigencia:</label>
+      <input 
+        id="vigencia" 
+        formControlName="vigencia" 
+        type="text" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': declaracioanualForm.get('vigencia')?.invalid && declaracioanualForm.get('vigencia')?.touched}"
+        placeholder="Ingresa la vigencia"
+      />
+      <div *ngIf="declaracioanualForm.get('vigencia')?.invalid && declaracioanualForm.get('vigencia')?.touched" class="invalid-feedback">
+        La vigencia es requerida.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="periodo" class="form-label">periodo:</label>
+      <input 
+        id="periodo" 
+        formControlName="periodo" 
+        type="text" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': declaracioanualForm.get('periodo')?.invalid && declaracioanualForm.get('periodo')?.touched}"
+        placeholder="Ingresa el periodo"
+      />
+      <div *ngIf="declaracioanualForm.get('periodo')?.invalid && declaracioanualForm.get('periodo')?.touched" class="invalid-feedback">
+        El periodo es requerida.
+      </div>
+    </div>
+    <!-- fecha_declaracion -->
+    <div class="mb-3">
+      <label for="fecha_declaracion" class="form-label">Fecha de Declaración:</label>
+      <input 
+        id="fecha_declaracion" 
+        formControlName="fecha_declaracion" 
+        type="date" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': declaracioanualForm.get('fecha_declaracion')?.invalid && declaracioanualForm.get('fecha_declaracion')?.touched}"
+      />
+      <div *ngIf="declaracioanualForm.get('fecha_declaracion')?.invalid && declaracioanualForm.get('fecha_declaracion')?.touched" class="invalid-feedback">
+        La fecha de declaración es requerida.
+      </div>
+    </div>
+
+    <!-- nit_contribuyente -->
+    <div class="mb-3">
+      <label for="nit_contribuyente" class="form-label">NIT del Contribuyente:</label>
+      <input 
+        id="nit_contribuyente" 
+        formControlName="nit_contribuyente" 
+        type="text" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': declaracioanualForm.get('nit_contribuyente')?.invalid && declaracioanualForm.get('nit_contribuyente')?.touched}"
+        placeholder="Ingresa el NIT del contribuyente"
+      />
+      <div *ngIf="declaracioanualForm.get('nit_contribuyente')?.invalid && declaracioanualForm.get('nit_contribuyente')?.touched" class="invalid-feedback">
+        El NIT del contribuyente es requerido.
+      </div>
+    </div>
+    <!-- Razón Social -->
+<div class="mb-3">
+  <label for="razon_social" class="form-label">Razón Social:</label>
+  <input 
+    id="razon_social" 
+    formControlName="razon_social" 
+    type="text" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('razon_social')?.invalid && declaracioanualForm.get('razon_social')?.touched}"
+    placeholder="Ingresa la razón social"
+  />
+  <div *ngIf="declaracioanualForm.get('razon_social')?.invalid && declaracioanualForm.get('razon_social')?.touched" class="invalid-feedback">
+    La razón social es requerida.
+  </div>
+</div>
+
+<!-- Régimen -->
+<div class="mb-3">
+  <label for="regimen" class="form-label">Régimen:</label>
+  <input 
+    id="regimen" 
+    formControlName="regimen" 
+    type="text" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('regimen')?.invalid && declaracioanualForm.get('regimen')?.touched}"
+    placeholder="Ingresa el régimen"
+  />
+  <div *ngIf="declaracioanualForm.get('regimen')?.invalid && declaracioanualForm.get('regimen')?.touched" class="invalid-feedback">
+    El régimen es requerido.
+  </div>
+</div>
+
+<!-- Dirección -->
+<div class="mb-3">
+  <label for="direccion" class="form-label">Dirección:</label>
+  <input 
+    id="direccion" 
+    formControlName="direccion" 
+    type="text" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('direccion')?.invalid && declaracioanualForm.get('direccion')?.touched}"
+    placeholder="Ingresa la dirección"
+  />
+  <div *ngIf="declaracioanualForm.get('direccion')?.invalid && declaracioanualForm.get('direccion')?.touched" class="invalid-feedback">
+    La dirección es requerida.
+  </div>
+</div>
+
+<!-- Ciudad -->
+<div class="mb-3">
+  <label for="ciudad" class="form-label">Ciudad:</label>
+  <input 
+    id="ciudad" 
+    formControlName="ciudad" 
+    type="text" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('ciudad')?.invalid && declaracioanualForm.get('ciudad')?.touched}"
+    placeholder="Ingresa la ciudad"
+  />
+  <div *ngIf="declaracioanualForm.get('ciudad')?.invalid && declaracioanualForm.get('ciudad')?.touched" class="invalid-feedback">
+    La ciudad es requerida.
+  </div>
+</div>
+
+<!-- Correo Electrónico -->
+<div class="mb-3">
+  <label for="correo_electronico" class="form-label">Correo Electrónico:</label>
+  <input 
+    id="correo_electronico" 
+    formControlName="correo_electronico" 
+    type="email" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('correo_electronico')?.invalid && declaracioanualForm.get('correo_electronico')?.touched}"
+    placeholder="Ingresa el correo electrónico"
+  />
+  <div *ngIf="declaracioanualForm.get('correo_electronico')?.invalid && declaracioanualForm.get('correo_electronico')?.touched" class="invalid-feedback">
+    El correo electrónico es requerido.
+  </div>
+</div>
+
+<!-- Total Ingresos Brutos -->
+<div class="mb-3">
+  <label for="total_ingresos_brutos" class="form-label">Total Ingresos Brutos:</label>
+  <input 
+    id="total_ingresos_brutos" 
+    formControlName="total_ingresos_brutos" 
+    type="number" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('total_ingresos_brutos')?.invalid && declaracioanualForm.get('total_ingresos_brutos')?.touched}"
+    placeholder="Ingresa el total de ingresos brutos"
+  />
+  <div *ngIf="declaracioanualForm.get('total_ingresos_brutos')?.invalid && declaracioanualForm.get('total_ingresos_brutos')?.touched" class="invalid-feedback">
+    Este campo es requerido.
+  </div>
+</div>
+
+<!-- Menos Devoluciones y Subsidios -->
+<div class="mb-3">
+  <label for="menos_devoluciones_subsidios" class="form-label">Menos Devoluciones y Subsidios:</label>
+  <input 
+    id="menos_devoluciones_subsidios" 
+    formControlName="menos_devoluciones_subsidios" 
+    type="number" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('menos_devoluciones_subsidios')?.invalid && declaracioanualForm.get('menos_devoluciones_subsidios')?.touched}"
+    placeholder="Ingresa el monto"
+  />
+  <div *ngIf="declaracioanualForm.get('menos_devoluciones_subsidios')?.invalid && declaracioanualForm.get('menos_devoluciones_subsidios')?.touched" class="invalid-feedback">
+    Este campo es requerido.
+  </div>
+</div>
+<!-- Menos Ingresos Fuera del Municipio -->
+<div class="mb-3">
+  <label for="menos_ingresos_fuera_municipio" class="form-label">Menos Ingresos Fuera del Municipio:</label>
+  <input 
+    id="menos_ingresos_fuera_municipio" 
+    formControlName="menos_ingresos_fuera_municipio" 
+    type="number" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('menos_ingresos_fuera_municipio')?.invalid && declaracioanualForm.get('menos_ingresos_fuera_municipio')?.touched}"
+    placeholder="Ingresa el monto"
+  />
+  <div *ngIf="declaracioanualForm.get('menos_ingresos_fuera_municipio')?.invalid && declaracioanualForm.get('menos_ingresos_fuera_municipio')?.touched" class="invalid-feedback">
+    Este campo es requerido.
+  </div>
+</div>
+
+<!-- Menos Ventas Activos y Exportación -->
+<div class="mb-3">
+  <label for="menos_ventas_activos_exportacion" class="form-label">Menos Ventas Activos y Exportación:</label>
+  <input 
+    id="menos_ventas_activos_exportacion" 
+    formControlName="menos_ventas_activos_exportacion" 
+    type="number" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('menos_ventas_activos_exportacion')?.invalid && declaracioanualForm.get('menos_ventas_activos_exportacion')?.touched}"
+    placeholder="Ingresa el monto"
+  />
+  <div *ngIf="declaracioanualForm.get('menos_ventas_activos_exportacion')?.invalid && declaracioanualForm.get('menos_ventas_activos_exportacion')?.touched" class="invalid-feedback">
+    Este campo es requerido.
+  </div>
+</div>
+
+<!-- Menos Ingresos Exentos o No Sujetos -->
+<div class="mb-3">
+  <label for="menos_ingresos_exentos_no_sujetos" class="form-label">Menos Ingresos Exentos o No Sujetos:</label>
+  <input 
+    id="menos_ingresos_exentos_no_sujetos" 
+    formControlName="menos_ingresos_exentos_no_sujetos" 
+    type="number" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('menos_ingresos_exentos_no_sujetos')?.invalid && declaracioanualForm.get('menos_ingresos_exentos_no_sujetos')?.touched}"
+    placeholder="Ingresa el monto"
+  />
+  <div *ngIf="declaracioanualForm.get('menos_ingresos_exentos_no_sujetos')?.invalid && declaracioanualForm.get('menos_ingresos_exentos_no_sujetos')?.touched" class="invalid-feedback">
+    Este campo es requerido.
+  </div>
+</div>
+
+<!-- Total Ingresos Gravables -->
+<div class="mb-3">
+  <label for="total_ingresos_gravables" class="form-label">Total Ingresos Gravables:</label>
+  <input 
+    id="total_ingresos_gravables" 
+    formControlName="total_ingresos_gravables" 
+    type="number" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('total_ingresos_gravables')?.invalid && declaracioanualForm.get('total_ingresos_gravables')?.touched}"
+    placeholder="Ingresa el monto"
+  />
+  <div *ngIf="declaracioanualForm.get('total_ingresos_gravables')?.invalid && declaracioanualForm.get('total_ingresos_gravables')?.touched" class="invalid-feedback">
+    Este campo es requerido.
+  </div>
+</div>
+
+<!-- Autoretención Impuesto Industria y Comercio -->
+<div class="mb-3">
+  <label for="autoretencion_impuesto_industria_comercio" class="form-label">Autoretención Impuesto Industria y Comercio:</label>
+  <input 
+    id="autoretencion_impuesto_industria_comercio" 
+    formControlName="autoretencion_impuesto_industria_comercio" 
+    type="number" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('autoretencion_impuesto_industria_comercio')?.invalid && declaracioanualForm.get('autoretencion_impuesto_industria_comercio')?.touched}"
+    placeholder="Ingresa el monto"
+  />
+  <div *ngIf="declaracioanualForm.get('autoretencion_impuesto_industria_comercio')?.invalid && declaracioanualForm.get('autoretencion_impuesto_industria_comercio')?.touched" class="invalid-feedback">
+    Este campo es requerido.
+  </div>
+</div>
+
+<!-- Más Autoretenciones Impuestos Avisos y Tableros -->
+<div class="mb-3">
+  <label for="mas_autoretenciones_impuestos_avisos_tableros" class="form-label">Más Autoretenciones Impuestos Avisos y Tableros:</label>
+  <input 
+    id="mas_autoretenciones_impuestos_avisos_tableros" 
+    formControlName="mas_autoretenciones_impuestos_avisos_tableros" 
+    type="number" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('mas_autoretenciones_impuestos_avisos_tableros')?.invalid && declaracioanualForm.get('mas_autoretenciones_impuestos_avisos_tableros')?.touched}"
+    placeholder="Ingresa el monto"
+  />
+  <div *ngIf="declaracioanualForm.get('mas_autoretenciones_impuestos_avisos_tableros')?.invalid && declaracioanualForm.get('mas_autoretenciones_impuestos_avisos_tableros')?.touched" class="invalid-feedback">
+    Este campo es requerido.
+  </div>
+</div>
+
+<!-- Total Autoretención Mensual -->
+<div class="mb-3">
+  <label for="total_autoretencion_mensual" class="form-label">Total Autoretención Mensual:</label>
+  <input 
+    id="total_autoretencion_mensual" 
+    formControlName="total_autoretencion_mensual" 
+    type="number" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('total_autoretencion_mensual')?.invalid && declaracioanualForm.get('total_autoretencion_mensual')?.touched}"
+    placeholder="Ingresa el monto"
+  />
+  <div *ngIf="declaracioanualForm.get('total_autoretencion_mensual')?.invalid && declaracioanualForm.get('total_autoretencion_mensual')?.touched" class="invalid-feedback">
+    Este campo es requerido.
+  </div>
+</div>
+
+<!-- Puedes continuar con el mismo patrón para los campos restantes como `menos_ingresos_fuera_municipio`, `menos_ventas_activos_exportacion`, `menos_ingresos_exentos_no_sujetos`, `total_ingresos_gravables`, etc. -->
+
+    <!-- Similar estructura para los campos restantes -->
+    <!-- Campos adicionales como razon_social, regimen, direccion, ciudad, correo_electronico, total_ingresos_nacionales, etc. -->
+
+    <!-- Botón para enviar el formulario -->
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary mt-3" >
+        {{ isEditMode ? 'Actualizar' : 'Insertar' }}
+      </button>
+      
+    </div>
+  </form>
+</div>

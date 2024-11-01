@@ -28,12 +28,44 @@ export const routes: Routes = [
         loadChildren: () => import('./components/excel-upload/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
+        path: 'uploadeclaracionmensual',
+        loadChildren: () => import('./components/upload-declaracionmensual/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'uploadeclaraciobimestral',
+        loadChildren: () => import('./components/upload-declaracionbimestral/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
         path: 'avisosytableroslista',
         loadChildren: () => import('./components/avisosytablero-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
+        path: 'declaracionmensuallista',
+        loadChildren: () => import('./components/declaracionmensual-list/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'declaracionbimestrallista',
+        loadChildren: () => import('./components/declaracionbimestral-list/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
         path: 'insertardelanul',
         loadChildren: () => import('./components/declaracionanual/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'insertardelmensual',
+        loadChildren: () => import('./components/insertdeclaracionmensual/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'insertardelbimestral',
+        loadChildren: () => import('./components/insertdeclaracionbimestral/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'modificardeclaracionmensual/:id',  // Nueva ruta para modificar
+        loadChildren: () => import('./components/insertdeclaracionmensual/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'modificardeclaracionbimestral/:id',  // Nueva ruta para modificar
+        loadChildren: () => import('./components/insertdeclaracionbimestral/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
         path: 'insertar',

@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { AvisosyTableroService } from '../../servicios/avisosy-tablero.service';  // Importamos el servicio
+  // Importamos el servicio
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import * as XLSX from 'xlsx';
-import { Iavisosytablero } from '../../interfaces/avisosytablero.interface';
+import { Ideclaracionmensual } from '../../interfaces/declaracionmensualinterface';
+import { IReporteData } from '../../interfaces/ReporteData.interface';
+
 import { catchError, of } from 'rxjs';
-import { DeclaracionAnualService } from '../../servicios/declaracion-anual.service';
+import { DeclaracionBimestralService } from '../../servicios/declarciobimestral.service';
 import { IDeclaracionAnulImage } from '../../interfaces/image.interface';
-import { ReporteanualComponent } from '../reporteanual/reporteanual.component';
+import { ReporteBimestralComponent } from '../reportebimestral/reportemensual.component';
 
 @Component({
-  selector: 'app-avisosytablero-list',
+  selector: 'app-declaracionbimestral-list',
   standalone: true,
-  templateUrl: './avisosytablero-list.component.html',
-  styleUrls: ['./avisosytablero-list.component.scss'],
-  imports: [CommonModule, RouterModule,ReporteanualComponent ]
+  templateUrl: './declaracionbimestral-list.component.html',
+  styleUrls: ['./declaracionbimestral-list.component.scss'],
+  imports: [CommonModule, RouterModule,ReporteBimestralComponent ]
 })
-export class avisosytableroListComponent implements OnInit {
+export class DeclaracionbimestralListComponent implements OnInit {
   avisosytablero: any[] = [];  // Aquí se almacenarán los usuarios
   totalPages: number = 0; // Total de páginas
   currentPage: number = 1; // Página actual
@@ -26,23 +28,25 @@ export class avisosytableroListComponent implements OnInit {
   Math = Math;
   filterType: string = '';
   reporteData: any = null;
+
+
   
-  constructor(private declaracionAnualService: DeclaracionAnualService, private avisosyTableroService: AvisosyTableroService, private router: Router) {}  // Inyectamos el servicio
+  constructor( private declaracionBimestralService: DeclaracionBimestralService, private router: Router) {}  // Inyectamos el servicio
 
   ngOnInit(): void {
    
-    this.getAvisosytableros();
+    this.getDeclaracionBimestral();
   }
 
   exportToExcel(): void {
-    this.avisosyTableroService.getAllAvisosytableros().subscribe(avisosytablero => {
-      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(avisosytablero);
+    this.declaracionBimestralService.getAlldeclaracionmensualcontroller().subscribe(declaracionMensuales => {
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(declaracionMensuales);
       const workbook: XLSX.WorkBook = XLSX.utils.book_new();
       
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'AvisosyTableros');
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'DeclaracionesMensuales');
       
       // Generar archivo Excel
-      XLSX.writeFile(workbook, 'AvisosyTableros.xlsx');
+      XLSX.writeFile(workbook, 'DeclaracionesMensuales.xlsx');
     });
   }
   closeModal(): void {
@@ -51,22 +55,22 @@ export class avisosytableroListComponent implements OnInit {
   }
   onFilterChange(event: any): void {
     this.filterType = event.target.value;  // Almacena el tipo de filtro seleccionado
-    this.getAvisosytableros(1);  // Llama nuevamente a la función para aplicar el filtro
+    this.getDeclaracionBimestral(1);  // Llama nuevamente a la función para aplicar el filtro
   }
 
-  getAvisosytableros(page: number = 1): void {
-    this.avisosyTableroService.getAvisosytableros(page, this.perPage, this.searchTerm).subscribe(
+  getDeclaracionBimestral(page: number = 1): void {
+    this.declaracionBimestralService.getDeclaracionBimestral(page, this.perPage, this.searchTerm).subscribe(
       (response) => {
         let filteredData = response.data;
 
         if (this.filterType === 'inexactos') {
-          // Filtra registros donde total_industria_comercio * 0.15 sea diferente de impuesto_avisos_tableros
+          // Filtra registros donde autoretencion_impuesto_industria_comercio * 0.15 sea diferente de mas_autoretenciones_impuestos_avisos_tableros
           filteredData = filteredData.filter((avisos: any) =>
-            this.calcularImpuesto(avisos) !== Number(avisos.impuesto_avisos_tableros) && Number(avisos.impuesto_avisos_tableros) > 0
+            this.calcularImpuesto(avisos) !== Number(avisos.mas_autoretenciones_impuestos_avisos_tableros) && Number(avisos.mas_autoretenciones_impuestos_avisos_tableros) > 0
           );
         } else if (this.filterType === 'presuncion') {
-          // Filtra registros donde impuesto_avisos_tableros está en cero o vacío
-          filteredData = filteredData.filter((avisos: any) => !Number(avisos.impuesto_avisos_tableros) || Number(avisos.impuesto_avisos_tableros) === 0
+          // Filtra registros donde mas_autoretenciones_impuestos_avisos_tableros está en cero o vacío
+          filteredData = filteredData.filter((avisos: any) => !Number(avisos.mas_autoretenciones_impuestos_avisos_tableros) || Number(avisos.mas_autoretenciones_impuestos_avisos_tableros) === 0
           );
         }
 
@@ -83,26 +87,26 @@ export class avisosytableroListComponent implements OnInit {
   onSearch(event: any): void {
    
     this.searchTerm = event.target.value;  // Actualiza el término de búsqueda
-    this.getAvisosytableros(1);  // Llama al método de obtener usuarios con el término de búsqueda
+    this.getDeclaracionBimestral(1);  // Llama al método de obtener usuarios con el término de búsqueda
   }
 
   onPerPageChange(event: any): void {
     this.perPage = event.target.value;
-    this.getAvisosytableros(1); // Volver a la primera página al cambiar la cantidad de registros
+    this.getDeclaracionBimestral(1); // Volver a la primera página al cambiar la cantidad de registros
   }
  
     
   deleteDeclaracionAnual(declaracionanualId: number) {
     const conf = confirm("¿Está seguro de eliminar este registro: " + declaracionanualId + "?");
     if (conf) {
-      this.avisosyTableroService.deleteDeclaraacionAnual(declaracionanualId).pipe(
+      this.declaracionBimestralService.deletedeclaracionBimestral(declaracionanualId).pipe(
         catchError((error: any) => {  // Especifica 'any' como tipo para 'error'
-          console.error('Error al eliminar el usuario', error);
+          console.error('Error al eliminar declaración', error);
           return of(null); // Controlar errores
         })
       ).subscribe(response => {
         if (response) {
-          console.log('Usuario eliminado con éxito');
+          console.log('Declaracion bimestraal eliminada con éxito');
           this.refreshUserList(); // Refrescar la lista de usuarios después de eliminar
         }
       });
@@ -111,8 +115,8 @@ export class avisosytableroListComponent implements OnInit {
   
   refreshUserList() {
     // Aquí deberías volver a obtener todos los usuarios
-    this.avisosyTableroService.getAllclaracionanual().subscribe(
-      (data: Iavisosytablero[]) => {
+    this.declaracionBimestralService.getAllclaracionbimestral().subscribe(
+      (data: Ideclaracionmensual[]) => {
         // Actualiza directamente la variable con los datos recibidos
         this.avisosytablero = data; 
          // Opcional: muestra la lista actualizada en la consola
@@ -126,37 +130,49 @@ export class avisosytableroListComponent implements OnInit {
   
   calcularImpuesto(avisos: any): number {
     
-    const resultadoSinRedondear = avisos.total_industria_comercio * 0.15; // Calcula el 15%
+    const resultadoSinRedondear = avisos.autoretencion_impuesto_industria_comercio * 0.15; // Calcula el 15%
      const resultado = Math.round(resultadoSinRedondear / 1000) * 1000; // Redondear a la centena más cercana
    
      return resultado;
   }
   isImpuestoIncorrecto(avisos: any): boolean {
     const impuestoCalculado = this.calcularImpuesto(avisos);
-       return (Number(avisos.impuesto_avisos_tableros) !== impuestoCalculado && avisos.total_industria_comercio > 0) || 
-           (Number(avisos.impuesto_avisos_tableros) === 0 || !Number(avisos.impuesto_avisos_tableros));
+       return (Number(avisos.mas_autoretenciones_impuestos_avisos_tableros) !== impuestoCalculado && avisos.autoretencion_impuesto_industria_comercio > 0) || 
+           (Number(avisos.mas_autoretenciones_impuestos_avisos_tableros) === 0 || !Number(avisos.mas_autoretenciones_impuestos_avisos_tableros));
 }
 
 openUploadImageForm(declaracionId: number): void {
   this.router.navigate(['/uploadimage', declaracionId]);
 }
- editModificardeclaracionanual(avisosytablero: Iavisosytablero): void {
+ editModificardeclaracionanual(avisosytablero: Ideclaracionmensual): void {
     // Redirigir a la página de edición usando el ID del usuario
-    this.router.navigate(['/modificardeclaracionanual', avisosytablero.id]);
+    this.router.navigate(['/modificardeclaracionbimestral', avisosytablero.id]);
    
   }
   
   mostrarReporte(avisos: any): void {
-    const reporteData = {
-      nit_contribuyente: avisos.nit_contribuyente,
-      razon_social: avisos.razon_social,
-      total_industria_comercio: avisos.total_industria_comercio,
-      impuesto_avisos_tableros: avisos.impuesto_avisos_tableros,
-      imagenes:  [] as string[] // Inicialmente vacío, se llenará con las rutas de las imágenes
-    };
-  
+      const reporteData: IReporteData = {
+        nit_contribuyente: avisos.nit_contribuyente,
+        razon_social: avisos.razon_social,
+        autoretencion_impuesto_industria_comercio: avisos.autoretencion_impuesto_industria_comercio,
+        mas_autoretenciones_impuestos_avisos_tableros: avisos.mas_autoretenciones_impuestos_avisos_tableros,
+        imagenes:  [] as string[], // Inicialmente vacío, se llenará con las rutas de las imágenes
+        declaraciones: []
+      };
+      this.declaracionBimestralService.getAllDeclaracionBimestralByNit(avisos.nit_contribuyente)
+        .subscribe(
+          (declaraciones) => {
+            console.log('Declaraciones obtenidas:', declaraciones);
+            // Asignar las declaraciones al reporteData o realizar otra acción según necesites
+            reporteData['declaraciones'] = declaraciones;
+            this.reporteData = reporteData;
+          },
+          (error) => {
+            console.error('Error al obtener las declaraciones:', error);
+          }
+        );
     // Llamar al servicio para obtener las imágenes asociadas
-    this.declaracionAnualService.getImages(avisos.id).subscribe(
+  /*  this.DeclaracionBimestralService.getImages(avisos.id).subscribe(
       (response: IDeclaracionAnulImage[] ) => {
        
         reporteData.imagenes = response.map(image => image.image_url); // Extrae la ruta de cada imagen
@@ -175,7 +191,7 @@ openUploadImageForm(declaracionId: number): void {
             console.error('Error al cargar las imágenes:', error);
           }
       }
-    );
+    );*/
   }
   
   onActionChange(event: any, avisos: any): void {
