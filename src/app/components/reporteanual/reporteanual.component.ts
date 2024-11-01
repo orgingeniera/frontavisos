@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { DeclaracionMensualService } from '../../servicios/declarcionmensual.service';
+
 interface ReporteData {
   nit_contribuyente: string;
   razon_social: string;
@@ -16,10 +18,12 @@ interface ReporteData {
 })
 export class ReporteanualComponent {
   @Input() reporteData!: ReporteData;
-  @Output() close = new EventEmitter<void>(); // Evento para cerrar el modal
+ @Output() close = new EventEmitter<void>(); // Evento para cerrar el modal
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+   
+  }
 
   closeModal(): void {
     this.close.emit(); // Emitir el evento para cerrar el modal
@@ -29,6 +33,7 @@ export class ReporteanualComponent {
     const popupWindow = window.open('', '_blank', 'width=800, height=600');
     if (popupWindow && printContent) {
       popupWindow.document.open();
+    
       popupWindow.document.write(`
         <html>
           <head>
@@ -60,6 +65,7 @@ export class ReporteanualComponent {
           </body>
         </html>
       `);
+
       popupWindow.document.close();
     }
   }

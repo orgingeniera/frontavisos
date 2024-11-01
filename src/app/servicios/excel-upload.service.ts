@@ -17,4 +17,16 @@ export class ExcelUploadService {
 
     return this.http.post(`${this.apiUrl}/upload-excel`, formData);
   }
+  uploadExcelDeclaracionMensual(file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${this.apiUrl}/upload-excel-mensual`, formData);
+  }
+  uploadExcelDeclaracionBimestral(file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${this.apiUrl}/upload-excel-bimestral`, formData);
+  }
 }

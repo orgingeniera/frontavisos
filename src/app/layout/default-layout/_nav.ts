@@ -25,6 +25,27 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-drop' }
   },
   {
+    name: 'Declaración Mensual',
+    url: '/declaracionmensuallista',
+    iconComponent: { name: 'cil-drop' }
+  },
+  
+  {
+    name: 'Subir Declaración Mensual',
+    url: '/uploadeclaracionmensual',
+    iconComponent: { name: 'cil-drop' }
+  }, 
+  {
+    name: 'Declaración Bimestral',
+    url: '/declaracionbimestrallista',
+    iconComponent: { name: 'cil-drop' }
+  },
+  {
+    name: 'Subir Declaración Bimestral',
+    url: '/uploadeclaraciobimestral',
+    iconComponent: { name: 'cil-drop' }
+  }, 
+  {
     name: 'Colors',
     url: '/theme/colors',
     iconComponent: { name: 'cil-drop' }

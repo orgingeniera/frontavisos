@@ -1,0 +1,52 @@
+<div class="modal" tabindex="-1" style="display: block;" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reporte del Contribuyente - Bimestral</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>NIT Contribuyente:</strong> {{ reporteData.nit_contribuyente }}</p>
+        <p><strong>Razón Social:</strong> {{ reporteData.razon_social }}</p>
+       
+        <h6>Imágenes:</h6>
+        <div *ngFor="let imagen of reporteData.imagenes">
+          <img [src]="imagen" alt="Imagen del registro" class="img-thumbnail" style="width: 100%; margin-top: 5px;">
+        </div>
+
+        <h6>Detalles de Declaraciones:</h6>
+        <table class="declaraciones-table" style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr>
+              <th>Año</th>
+              <th>Periodo</th>
+              <th>Industria y comercio</th>
+              <th>Avisos y tableros</th>
+              <!-- Agrega más columnas según las propiedades de cada declaración -->
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="reporteData.declaraciones && reporteData.declaraciones.length > 0; else noDeclaraciones">
+              <tr *ngFor="let declaracion of reporteData.declaraciones">
+                <td>{{ declaracion.vigencia || 'N/A' }}</td>
+                <td>{{ declaracion.periodo || 'N/A' }}</td>
+                <td>{{ declaracion.autoretencion_impuesto_industria_comercio || 'N/A' }}</td>
+                <td>{{ declaracion.mas_autoretenciones_impuestos_avisos_tableros || 'N/A' }}</td>
+                <!-- Agrega más celdas aquí según las propiedades que necesites -->
+              </tr>
+            </ng-container>
+            <ng-template #noDeclaraciones>
+              <tr>
+                <td colspan="4" style="text-align: center;">No hay declaraciones disponibles</td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="printReport()">Imprimir</button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
