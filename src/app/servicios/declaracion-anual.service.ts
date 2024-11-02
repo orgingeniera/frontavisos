@@ -3,6 +3,8 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Iavisosytablero } from '../interfaces/avisosytablero.interface';
 import { IDeclaracionAnulImage } from '../interfaces/image.interface';
+
+
 @Injectable({
   providedIn: 'root'  // Hace que el servicio esté disponible en toda la aplicación
 })

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './layout';
 import { authGuard } from './guards/auth.guard';
+import { ReporteGeneralDeclaracionesComponent } from './components/reportegeneraldeclaraciones/reportegeneraldeclaraciones.component'; 
 import { UploadImageComponent } from './components/upload-image/upload-image.component'; // Importar el componente
 export const routes: Routes = [
   {
@@ -40,6 +41,14 @@ export const routes: Routes = [
         loadChildren: () => import('./components/avisosytablero-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
+        path: 'vallaslistas',
+        loadChildren: () => import('./components/vallas-list/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'contribuyenteslista',
+        loadChildren: () => import('./components/contribuyentes-list/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
         path: 'declaracionmensuallista',
         loadChildren: () => import('./components/declaracionmensual-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
@@ -50,6 +59,14 @@ export const routes: Routes = [
       {
         path: 'insertardelanul',
         loadChildren: () => import('./components/declaracionanual/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'insertarvallas',
+        loadChildren: () => import('./components/vallas-insertar/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
+        path: 'insertarcontribuyente',
+        loadChildren: () => import('./components//contribuyente-insertar/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
         path: 'insertardelmensual',
@@ -80,11 +97,23 @@ export const routes: Routes = [
         loadChildren: () => import('./components/declaracionanual/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
+        path: 'modificarcontribuyente/:id',  // Nueva ruta para modificar
+        loadChildren: () => import('./components/contribuyente-insertar/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
         path: 'uploadimage/:id', // Nueva ruta para cargar directamente el componente
         component: UploadImageComponent,
         canActivate: [authGuard], // Mantener la protección del guard
         data: {
           title: 'Modificar Imagen' // Puedes ajustar el título según lo necesites
+        }
+      },
+      {
+        path: 'reportegeneral/:id', // Nueva ruta para cargar directamente el componente
+        component: ReporteGeneralDeclaracionesComponent,
+        canActivate: [authGuard], // Mantener la protección del guard
+        data: {
+          title: 'Reporte General de Declaraciones' // Puedes ajustar el título según lo necesites
         }
       },
       {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AvisosyTableroService } from '../../servicios/avisosy-tablero.service';  // Importamos el servicio
+import { VallasService } from '../../servicios/vallas.service';  // Importamos el servicio
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import * as XLSX from 'xlsx';
@@ -10,13 +10,13 @@ import { IDeclaracionAnulImage } from '../../interfaces/image.interface';
 import { ReporteanualComponent } from '../reporteanual/reporteanual.component';
 
 @Component({
-  selector: 'app-avisosytablero-list',
+  selector: 'app-vallas-list',
   standalone: true,
-  templateUrl: './avisosytablero-list.component.html',
-  styleUrls: ['./avisosytablero-list.component.scss'],
+  templateUrl: './vallas-list.component.html',
+  styleUrls: ['./vallas-list.component.scss'],
   imports: [CommonModule, RouterModule,ReporteanualComponent ]
 })
-export class avisosytableroListComponent implements OnInit {
+export class VallasListComponent implements OnInit {
   avisosytablero: any[] = [];  // Aquí se almacenarán los usuarios
   totalPages: number = 0; // Total de páginas
   currentPage: number = 1; // Página actual
@@ -27,7 +27,7 @@ export class avisosytableroListComponent implements OnInit {
   filterType: string = '';
   reporteData: any = null;
   
-  constructor(private declaracionAnualService: DeclaracionAnualService, private avisosyTableroService: AvisosyTableroService, private router: Router) {}  // Inyectamos el servicio
+  constructor(private declaracionAnualService: DeclaracionAnualService, private vallasService: VallasService, private router: Router) {}  // Inyectamos el servicio
 
   ngOnInit(): void {
    
@@ -35,7 +35,7 @@ export class avisosytableroListComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    this.avisosyTableroService.getAllAvisosytableros().subscribe(avisosytablero => {
+    this.vallasService.getAllAvisosytableros().subscribe(avisosytablero => {
       const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(avisosytablero);
       const workbook: XLSX.WorkBook = XLSX.utils.book_new();
       
@@ -55,22 +55,9 @@ export class avisosytableroListComponent implements OnInit {
   }
 
   getAvisosytableros(page: number = 1): void {
-    this.avisosyTableroService.getAvisosytableros(page, this.perPage, this.searchTerm).subscribe(
+    this.vallasService.getAvisosytableros(page, this.perPage, this.searchTerm).subscribe(
       (response) => {
-        let filteredData = response.data;
-
-        if (this.filterType === 'inexactos') {
-          // Filtra registros donde total_industria_comercio * 0.15 sea diferente de impuesto_avisos_tableros
-          filteredData = filteredData.filter((avisos: any) =>
-            this.calcularImpuesto(avisos) !== Number(avisos.impuesto_avisos_tableros) && Number(avisos.impuesto_avisos_tableros) > 0
-          );
-        } else if (this.filterType === 'presuncion') {
-          // Filtra registros donde impuesto_avisos_tableros está en cero o vacío
-          filteredData = filteredData.filter((avisos: any) => !Number(avisos.impuesto_avisos_tableros) || Number(avisos.impuesto_avisos_tableros) === 0
-          );
-        }
-
-        this.avisosytablero = filteredData;
+        this.avisosytablero = response.data;
         this.totalPages = response.last_page;
         this.currentPage = response.current_page;
       },
@@ -95,7 +82,7 @@ export class avisosytableroListComponent implements OnInit {
   deleteDeclaracionAnual(declaracionanualId: number) {
     const conf = confirm("¿Está seguro de eliminar este registro: " + declaracionanualId + "?");
     if (conf) {
-      this.avisosyTableroService.deleteDeclaraacionAnual(declaracionanualId).pipe(
+      this.vallasService.deleteDeclaraacionAnual(declaracionanualId).pipe(
         catchError((error: any) => {  // Especifica 'any' como tipo para 'error'
           console.error('Error al eliminar el usuario', error);
           return of(null); // Controlar errores
@@ -111,7 +98,7 @@ export class avisosytableroListComponent implements OnInit {
   
   refreshUserList() {
     // Aquí deberías volver a obtener todos los usuarios
-    this.avisosyTableroService.getAllclaracionanual().subscribe(
+    this.vallasService.getAllclaracionanual().subscribe(
       (data: Iavisosytablero[]) => {
         // Actualiza directamente la variable con los datos recibidos
         this.avisosytablero = data; 
