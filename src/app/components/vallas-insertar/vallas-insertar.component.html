@@ -1,0 +1,167 @@
+<div class="insert-user-form container mt-5">
+  <h2 class="text-center mb-4">{{ isEditMode ? 'Modificar Declaración Anual' : 'Insertar Declaración Anual' }}</h2>
+
+    <div *ngIf="errorMessage" class="mt-3 text-center text-danger">
+      {{ errorMessage }}
+    </div>
+    <form [formGroup]="declaracioanualForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="contribuyente_id" class="form-label">Contribuyente:</label>
+        <select 
+          id="contribuyente_id" 
+          formControlName="contribuyente_id" 
+          class="form-select" 
+          [ngClass]="{'is-invalid': declaracioanualForm.get('contribuyente_id')?.invalid && declaracioanualForm.get('contribuyente_id')?.touched}"
+        >
+          <option value="">Seleccione un contribuyente</option>
+          <option *ngFor="let contribuyente of contribuyentes" [value]="contribuyente.id">{{ contribuyente.nombre }} {{ contribuyente.apellido }}</option>
+        </select>
+        <div *ngIf="declaracioanualForm.get('contribuyente_id')?.invalid && declaracioanualForm.get('contribuyente_id')?.touched" class="invalid-feedback">
+          El contribuyente es requerido.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="opcion" class="form-label">Opción:</label>
+        <select 
+          id="opcion" 
+          formControlName="opcion" 
+          class="form-select" 
+          [ngClass]="{'is-invalid': declaracioanualForm.get('opcion')?.invalid && declaracioanualForm.get('opcion')?.touched}"
+        >
+          <option value="">Seleccione una opción</option>
+          <option value="declaracion">Declaración</option>
+          <option value="correciones">Correciones</option>
+        </select>
+        <div *ngIf="declaracioanualForm.get('opcion')?.invalid && declaracioanualForm.get('opcion')?.touched" class="invalid-feedback">
+          La opción es requerida.
+        </div>
+      </div>
+      
+      
+      <div class="mb-3">
+        <label for="n_registro" class="form-label">N° Registro:</label>
+        <input 
+          id="n_registro" 
+          formControlName="n_registro" 
+          type="text" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': declaracioanualForm.get('n_registro')?.invalid && declaracioanualForm.get('n_registro')?.touched}"
+          placeholder="Ingresa tu número de registro"
+        />
+        <div *ngIf="declaracioanualForm.get('n_registro')?.invalid && declaracioanualForm.get('n_registro')?.touched" class="invalid-feedback">
+          El número de registro es requerido.
+        </div>
+      </div>
+      
+      <div class="mb-3">
+        <label for="fecha_instalacion" class="form-label">Fecha Instalación:</label>
+        <input 
+          id="fecha_instalacion" 
+          formControlName="fecha_instalacion" 
+          type="date" 
+          class="form-control" 
+          [ngClass]="{'is-invalid': declaracioanualForm.get('fecha_instalacion')?.invalid && declaracioanualForm.get('fecha_instalacion')?.touched}"
+        />
+        <div *ngIf="declaracioanualForm.get('fecha_instalacion')?.invalid && declaracioanualForm.get('fecha_instalacion')?.touched" class="invalid-feedback">
+          La fecha de instalación es requerida.
+        </div>
+      </div>
+      
+     <!-- Select para Lugar Instalación -->
+<div class="mb-3">
+  <label for="lugar_instalacion" class="form-label">Lugar Instalación:</label>
+  <select 
+    id="lugar_instalacion" 
+    formControlName="lugar_instalacion" 
+    class="form-select" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('lugar_instalacion')?.invalid && declaracioanualForm.get('lugar_instalacion')?.touched}"
+    (change)="onLugarInstalacionChange($event)"
+  >
+    <option value="predio">Predio</option>
+    <option value="vehiculo">Vehículo</option>
+  </select>
+  <div *ngIf="declaracioanualForm.get('lugar_instalacion')?.invalid && declaracioanualForm.get('lugar_instalacion')?.touched" class="invalid-feedback">
+    El lugar de instalación es requerido.
+  </div>
+</div>
+
+<!-- Campo para ¿Dónde Instaló? -->
+<div class="mb-3">
+  <label for="donde_instalo" class="form-label">{{ lugarInstalacionLabel }}</label>
+  <input 
+    id="donde_instalo" 
+    formControlName="donde_instalo" 
+    type="text" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('donde_instalo')?.invalid && declaracioanualForm.get('donde_instalo')?.touched}"
+    placeholder="{{ lugarInstalacionPlaceholder }}"
+  />
+  <div *ngIf="declaracioanualForm.get('donde_instalo')?.invalid && declaracioanualForm.get('donde_instalo')?.touched" class="invalid-feedback">
+    El lugar de instalación es requerido.
+  </div>
+</div>
+
+     <!-- Select para Base Gravable -->
+<div class="mb-3">
+  <label for="base_gravable" class="form-label">Base Gravable:</label>
+  <select 
+    id="base_gravable" 
+    formControlName="base_gravable" 
+    class="form-select" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('base_gravable')?.invalid && declaracioanualForm.get('base_gravable')?.touched}"
+    (change)="onBaseGravableChange($event)"
+  >
+    <option value="" disabled selected>Selecciona la base gravable</option>
+    <option value="30">De ocho (8) a doce (12) metros cuadrados (m²) - 30 UVT</option>
+    <option value="50">De doce punto cero uno (12.01) a veinte metros cuadrados (20 m²) - 50 UVT</option>
+    <option value="75">De veinte punto cero uno (20.01) a treinta metros cuadrados (30 m²) - 75 UVT</option>
+    <option value="100">De treinta punto cero uno (30.01) a cuarenta metros cuadrados (40 m²) - 100 UVT</option>
+    <option value="120">Mayores de cuarenta metros cuadrados (40 m²) - 120 UVT</option>
+  </select>
+  <div *ngIf="declaracioanualForm.get('base_gravable')?.invalid && declaracioanualForm.get('base_gravable')?.touched" class="invalid-feedback">
+    La base gravable es requerida.
+  </div>
+</div>
+
+<!-- Campo para Impuesto a Pagar -->
+<div class="mb-3">
+  <label for="impuesto_pagar" class="form-label">Impuesto a Pagar:</label>
+  <input 
+    id="impuesto_pagar" 
+    formControlName="impuesto_pagar" 
+    type="number" 
+    class="form-control" 
+    [ngClass]="{'is-invalid': declaracioanualForm.get('impuesto_pagar')?.invalid && declaracioanualForm.get('impuesto_pagar')?.touched}"
+    placeholder="Ingresa el impuesto a pagar"
+    readonly
+  />
+  <div *ngIf="declaracioanualForm.get('impuesto_pagar')?.invalid && declaracioanualForm.get('impuesto_pagar')?.touched" class="invalid-feedback">
+    El impuesto a pagar es requerido.
+  </div>
+</div>
+
+      
+      
+      
+
+      
+      
+
+      <!-- Botón de envío -->
+      <div class="text-center">
+        <button 
+          type="submit" 
+          class="btn btn-primary w-100"
+          >
+          {{ isEditMode ? 'Modificar Declaracion Anual' : 'Insertar Declaracion Anual' }}
+        </button>
+      </div>
+    </form>
+  
+    <!-- Indicadores de carga y error -->
+    <div *ngIf="isLoading" class="mt-3 text-center text-info">
+      Insertando Declaracion Anual...
+    </div>
+   
+  </div>
+  

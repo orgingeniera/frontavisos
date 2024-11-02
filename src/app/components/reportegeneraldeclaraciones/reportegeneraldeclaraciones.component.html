@@ -1,0 +1,76 @@
+
+<div *ngIf="mensaje" class="alert {{ tipoAlerta }} mb-4">
+    {{ mensaje }}
+  </div>
+<!-- src/app/components/declaraciones/declaraciones.component.html -->
+
+<div *ngIf="infoGeneral" class="mb-4">
+    <h2>Información del Contribuyente</h2>
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th scope="row">NIT</th>
+          <td>{{ infoGeneral.nit_contribuyente }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Razón Social</th>
+          <td>{{ infoGeneral.razon_social }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div>
+    <h3>Declaraciones Anuales</h3>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Total Industria y Comercio</th>
+          <th>Impuesto Avisos y Tableros</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let declaracion of declaracionesAnuales">
+          <td>{{ declaracion.total_industria_comercio }}</td>
+          <td>{{ declaracion.impuesto_avisos_tableros }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div>
+    <h3>Declaraciones Mensuales</h3>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Autoretención Impuesto Industria y Comercio</th>
+          <th>Más Autoretenciones Impuestos Avisos y Tableros</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let declaracion of declaracionesMensuales">
+          <td>{{ declaracion.autoretencion_impuesto_industria_comercio }}</td>
+          <td>{{ declaracion.mas_autoretenciones_impuestos_avisos_tableros }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div>
+    <h3>Declaraciones Bimestrales</h3>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Autoretención Impuesto Industria y Comercio</th>
+          <th>Más Autoretenciones Impuestos Avisos y Tableros</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let declaracion of declaracionesBimestrales">
+          <td>{{ declaracion.autoretencion_impuesto_industria_comercio }}</td>
+          <td>{{ declaracion.mas_autoretenciones_impuestos_avisos_tableros }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
