@@ -1,0 +1,19 @@
+<div class="container">
+  <!-- Mensaje de actualización -->
+  <div *ngIf="message" class="mt-3" [ngClass]="{'alert alert-success': !error, 'alert alert-danger': error}">
+    {{ message }}
+  </div>
+  <h2>Administrar UVT</h2>
+  <div *ngIf="uvt">
+    <label for="valor">Valor UVT:</label>
+    <input
+      type="number"
+      [(ngModel)]="uvt.valor"
+      id="valor"
+      class="form-control"
+      required
+      (input)="validateInput($event)"
+    />
+    <button (click)="updateUvt()" class="btn btn-primary mt-3" [disabled]="!isValid()">Actualizar</button>
+  </div>
+</div>

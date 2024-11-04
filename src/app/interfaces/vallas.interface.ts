@@ -11,6 +11,8 @@ export interface Ivallas {
   contribuyente_id: number;
   image_path?: string;
   image_url?: string;
+  isNearOneYear: boolean | true;
+  meses_restantes?: number;
 }
 
   

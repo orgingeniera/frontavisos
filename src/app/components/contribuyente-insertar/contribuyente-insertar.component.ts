@@ -79,7 +79,7 @@ export class ContribuyenteinsertarComponent  {
           next: () => {
             this.isLoading = false;
             alert('Contruyente modificado correctamente');
-            this.router.navigate(['/contribuyenteslista']);
+            this.router.navigate(['/publicidadexterior/contribuyenteslista']);
           },
           error: (err) => {
             this.isLoading = false;
@@ -94,7 +94,7 @@ export class ContribuyenteinsertarComponent  {
         next: () => {
           this.isLoading = false;
           alert('Contribuyente insertado correctamente');
-          this.router.navigate(['/contribuyenteslista']);
+          this.router.navigate(['/publicidadexterior/contribuyenteslista']);
         },
         error: (err) => {
           this.isLoading = false;

@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { VallasService } from '../../servicios/vallas.service';  // Importamos el servicio
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { Iavisosytablero } from '../../interfaces/avisosytablero.interface';
+import { Ivallas } from '../../interfaces/vallas.interface';
+
 import { catchError, of } from 'rxjs';
-import { DeclaracionAnualService } from '../../servicios/declaracion-anual.service';
-import { IDeclaracionAnulImage } from '../../interfaces/image.interface';
-import { ReporteanualComponent } from '../reporteanual/reporteanual.component';
+import { IimagenVallas } from '../../interfaces/imageVallas.interface';
+import { ReportevallasComponent } from '../reportevallas/reportevallas.component';
 
 @Component({
   selector: 'app-vallas-list',
   standalone: true,
   templateUrl: './vallas-list.component.html',
   styleUrls: ['./vallas-list.component.scss'],
-  imports: [CommonModule, RouterModule,ReporteanualComponent ]
+  imports: [CommonModule, RouterModule,ReportevallasComponent ],
+  encapsulation: ViewEncapsulation.None
 })
 export class VallasListComponent implements OnInit {
   avisosytablero: any[] = [];  // Aquí se almacenarán los usuarios
@@ -27,7 +29,7 @@ export class VallasListComponent implements OnInit {
   filterType: string = '';
   reporteData: any = null;
   
-  constructor(private declaracionAnualService: DeclaracionAnualService, private vallasService: VallasService, private router: Router) {}  // Inyectamos el servicio
+  constructor(private vallasService: VallasService, private router: Router) {}  // Inyectamos el servicio
 
   ngOnInit(): void {
    
@@ -39,10 +41,10 @@ export class VallasListComponent implements OnInit {
       const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(avisosytablero);
       const workbook: XLSX.WorkBook = XLSX.utils.book_new();
       
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'AvisosyTableros');
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'publicidadexterior');
       
       // Generar archivo Excel
-      XLSX.writeFile(workbook, 'AvisosyTableros.xlsx');
+      XLSX.writeFile(workbook, 'publicidadexterior.xlsx');
     });
   }
   closeModal(): void {
@@ -53,11 +55,33 @@ export class VallasListComponent implements OnInit {
     this.filterType = event.target.value;  // Almacena el tipo de filtro seleccionado
     this.getAvisosytableros(1);  // Llama nuevamente a la función para aplicar el filtro
   }
-
+  isNearOneYear(avisos: any): boolean {
+    const fechaInstalacionDate = new Date(avisos.fecha_instalacion);
+    const now = new Date();
+    const oneYearAgo = new Date(fechaInstalacionDate);
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() + 1);
+    const twoMonthsBeforeOneYear = new Date(oneYearAgo);
+    twoMonthsBeforeOneYear.setMonth(twoMonthsBeforeOneYear.getMonth() - 2);
+  
+    
+    return now >= twoMonthsBeforeOneYear;
+  }
   getAvisosytableros(page: number = 1): void {
     this.vallasService.getAvisosytableros(page, this.perPage, this.searchTerm).subscribe(
       (response) => {
-        this.avisosytablero = response.data;
+        
+        // Mapeamos los avisos y agregamos la propiedad isNearOneYear
+        this.avisosytablero = response.data
+        /*.map((avisos: Ivallas) => {
+          const isNear = this.isNearOneYear(avisos.fecha_instalacion);
+          console.log(avisos.fecha_instalacion, isNear); // Para verificar la condición
+ 
+          return {
+            ...avisos,
+            isNearOneYear: this.isNearOneYear(avisos.fecha_instalacion)
+          };
+        });*/
+  
         this.totalPages = response.last_page;
         this.currentPage = response.current_page;
       },
@@ -66,6 +90,7 @@ export class VallasListComponent implements OnInit {
       }
     );
   }
+  
   // Método para manejar la búsqueda
   onSearch(event: any): void {
    
@@ -84,12 +109,12 @@ export class VallasListComponent implements OnInit {
     if (conf) {
       this.vallasService.deleteDeclaraacionAnual(declaracionanualId).pipe(
         catchError((error: any) => {  // Especifica 'any' como tipo para 'error'
-          console.error('Error al eliminar el usuario', error);
+          console.error('Error al eliminar el aviso exterior', error);
           return of(null); // Controlar errores
         })
       ).subscribe(response => {
         if (response) {
-          console.log('Usuario eliminado con éxito');
+          console.log('aviso exterior eliminado con éxito');
           this.refreshUserList(); // Refrescar la lista de usuarios después de eliminar
         }
       });
@@ -124,32 +149,45 @@ export class VallasListComponent implements OnInit {
            (Number(avisos.impuesto_avisos_tableros) === 0 || !Number(avisos.impuesto_avisos_tableros));
 }
 
-openUploadImageForm(declaracionId: number): void {
-  this.router.navigate(['/uploadimage', declaracionId]);
+openUploadImageForm(vallasId: number): void {
+  this.router.navigate(['/uploadimagevallas', vallasId]);
 }
  editModificardeclaracionanual(avisosytablero: Iavisosytablero): void {
     // Redirigir a la página de edición usando el ID del usuario
-    this.router.navigate(['/modificardeclaracionanual', avisosytablero.id]);
+    this.router.navigate(['/modificarvallas', avisosytablero.id]);
    
   }
-  reportegeneral(avisosytablero: Iavisosytablero): void {
-    console.log(avisosytablero)
+  /*reportegeneral(avisosytablero: Iavisosytablero): void {
+   
     this.router.navigate(['/reportegeneral', avisosytablero.nit_contribuyente]);
     
 
-  }
+  }*/
   mostrarReporte(avisos: any): void {
     const reporteData = {
-      nit_contribuyente: avisos.nit_contribuyente,
-      razon_social: avisos.razon_social,
-      total_industria_comercio: avisos.total_industria_comercio,
-      impuesto_avisos_tableros: avisos.impuesto_avisos_tableros,
-      imagenes:  [] as string[] // Inicialmente vacío, se llenará con las rutas de las imágenes
+      opcion: avisos.opcion,
+      n_registro: avisos.n_registro,
+      fecha_instalacion: avisos.fecha_instalacion,
+      lugar_instalacion: avisos.lugar_instalacion,
+      donde_instalo: avisos.donde_instalo,
+      base_gravable: avisos.base_gravable,
+      impuesto_pagar: avisos.impuesto_pagar,
+      contribuyente_id: avisos.contribuyente_id,
+      nombre_contribuyente: avisos.contribuyente.nombre,
+      apellido_contribuyente: avisos.contribuyente.apellido,
+      tipo_identificacion_contribuyente: avisos.contribuyente.tipo_identificacion,
+      identificacion_contribuyente: avisos.contribuyente.identificacion,
+      dv_contribuyente: avisos.contribuyente.dv,
+      telefono_contribuyente: avisos.contribuyente.telefono,
+      direccion_contribuyente: avisos.contribuyente.direccion,
+      municipio_contribuyente: avisos.contribuyente.municipio,
+      departamento_contribuyente: avisos.contribuyente.departamento,
+      imagenes: [] as string[]
     };
   
     // Llamar al servicio para obtener las imágenes asociadas
-    this.declaracionAnualService.getImages(avisos.id).subscribe(
-      (response: IDeclaracionAnulImage[] ) => {
+    this.vallasService.getImages(avisos.id).subscribe(
+      (response: IimagenVallas[] ) => {
        
         reporteData.imagenes = response.map(image => image.image_url); // Extrae la ruta de cada imagen
        // console.log("Reporte del registro con imágenes:", reporteData);
@@ -159,8 +197,8 @@ openUploadImageForm(declaracionId: number): void {
       },
       (error) => {
         // Verifica si el error es el mensaje esperado
-          if (error.status === 404 && error.error?.message === "No se encontraron imágenes para esta declaración.") {
-            console.warn('No se encontraron imágenes para esta declaración.');
+          if (error.status === 404 && error.error?.message === "No se encontraron imágenes para esta publicidad exterior.") {
+            console.warn('No se encontraron imágenes para esta publicidad exterior.');
             reporteData.imagenes = []; // Mantén las imágenes como un array vacío
             this.reporteData = reporteData; // Aún así, asigna los datos para mostrar el popup sin imágenes
           } else {
@@ -185,9 +223,9 @@ openUploadImageForm(declaracionId: number): void {
       case 'reporte':
         this.mostrarReporte(avisos);
       break;
-      case 'reportegeneral':
+      /*case 'reportegeneral':
         this.reportegeneral(avisos);
-      break;
+      break;*/
     }
     // Restablece el valor del <select> para que vuelva a la opción predeterminada
     event.target.value = '';

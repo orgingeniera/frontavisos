@@ -1,0 +1,15 @@
+<div class="container">
+  <h2>Cargar Imagen para la Declaración ID: {{ vallasId }}</h2>
+  <input type="file" (change)="onFileSelected($event)" />
+  <button class="btn btn-primary" (click)="onUpload()">Subir Imagen</button>
+
+  <h3>Imágenes Cargadas:</h3>
+  <div *ngIf="images.length > 0; else noImages">
+    <div *ngFor="let image of images">
+      <img [src]="image.image_url" alt="Imagen de declaración" style="max-width: 400px; max-height: 400px; margin: 10px;" />
+    </div>
+  </div>
+  <ng-template #noImages>
+    <p>No hay imágenes cargadas para esta declaración.</p>
+  </ng-template>
+</div>

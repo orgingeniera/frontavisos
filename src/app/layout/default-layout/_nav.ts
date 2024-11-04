@@ -7,7 +7,7 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-speedometer' },
     badge: {
       color: 'info',
-      text: 'NEW'
+      text: 'Nuevo'
     }
   },
   {
@@ -22,45 +22,66 @@ export const navItems: INavData[] = [
   {
     name: 'Avisos y tableros',
     url: '/uploadfileexcel',
-    iconComponent: { name: 'cil-drop' }
+    iconComponent: { name: 'cil-drop' },
+    children: [
+      {
+        name: 'Cargar declaración Anual',
+        url: '/gestion-declaraciones/uploadfileexcel',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Ver declaración Anual',
+        url: '/gestion-declaraciones/avisosytableroslista',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Cargar declaración Mensual',
+        url: '/gestion-declaraciones/uploadeclaracionmensual',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Ver declaración Mensual',
+        url: '/gestion-declaraciones/declaracionmensuallista',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Cargar declaración Bimestral',
+        url: '/gestion-declaraciones/uploadeclaraciobimestral',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Ver declaración Bimestral',
+        url: '/gestion-declaraciones/declaracionbimestrallista',
+        icon: 'nav-icon-bullet'
+      }
+      
+    ]
   },
   {
-    name: 'Declaración Mensual',
-    url: '/declaracionmensuallista',
-    iconComponent: { name: 'cil-drop' }
+    name: 'Publicidad exterior',
+    url: '/publicidadexterior',
+    iconComponent: { name: 'cil-drop' },
+    children: [
+      {
+        name: 'Contribuyentes',
+        url: '/publicidadexterior/contribuyenteslista',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Vallas',
+        url: '/publicidadexterior/vallaslistas',
+        iconComponent: { name: 'nav-icon-bullet' }
+      }
+      
+      
+    ]
   },
-  
-  {
-    name: 'Subir Declaración Mensual',
-    url: '/uploadeclaracionmensual',
+{
+    name: 'Configurar Uvt',
+    url: '/uvt',
     iconComponent: { name: 'cil-drop' }
-  }, 
-  {
-    name: 'Declaración Bimestral',
-    url: '/declaracionbimestrallista',
-    iconComponent: { name: 'cil-drop' }
-  },
-  {
-    name: 'Subir Declaración Bimestral',
-    url: '/uploadeclaraciobimestral',
-    iconComponent: { name: 'cil-drop' }
-  }, 
-  {
-    name: 'Contribuyentes',
-    url: '/contribuyenteslista',
-    iconComponent: { name: 'cil-drop' }
-  }, 
-  {
-    name: 'Vallas',
-    url: '/vallaslistas',
-    iconComponent: { name: 'cil-drop' }
-  }, 
-  {
-    name: 'Colors',
-    url: '/theme/colors',
-    iconComponent: { name: 'cil-drop' }
-  },
-  {
+  }
+/*   {
     name: 'Typography',
     url: '/theme/typography',
     linkProps: { fragment: 'headings' },
@@ -329,5 +350,5 @@ export const navItems: INavData[] = [
     url: 'https://coreui.io/angular/docs/5.x/',
     iconComponent: { name: 'cil-description' },
     attributes: { target: '_blank' }
-  }
+  }*/
 ];

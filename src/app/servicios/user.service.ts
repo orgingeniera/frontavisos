@@ -35,4 +35,8 @@ export class UserService {
   deleteUser(userId: number): Observable<any> {
     return this.http.put(`${this.apiUrl}/deleteusers/${userId}/delete`, {}); // URL del backend
   }
+  // Método para obtener la cantidad de usuarios
+  getUserCount(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/usercount`); // Cambia 'usercount' por la ruta adecuada
+  }
 }

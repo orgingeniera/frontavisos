@@ -2,12 +2,12 @@
   <c-col sm="6" xl="3">
     <c-widget-stat-a
       color="primary"
-      [title]="'Users'"
+      [title]="'Usuarios'"
     >
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        26K
+        {{ countusuario }}
         <span class="fw-normal" style="font-size: 12px;">
-          (-12.4% <svg cIcon name="cilArrowBottom" size="sm"></svg>)
+        <!--(-12.4% <svg cIcon name="cilArrowBottom" size="sm"></svg>)-->
         </span>
       </ng-template>
       <ng-template cTemplateId="widgetActionTemplate">
@@ -16,15 +16,15 @@
             <svg cIcon name="cilOptions"></svg>
           </button>
           <ul cDropdownMenu>
-            <li><a [routerLink]="[]" cDropdownItem>Action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Another action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Something else here</a></li>
-            <li>
+            <li><a [routerLink]="['/userlista']" cDropdownItem>Ver usuarios</a></li>
+            <li><a [routerLink]="['/insertar/insertar']" cDropdownItem>Insertar usuarios</a></li>
+            
+          <!--  <li>
               <hr cDropdownDivider>
             </li>
             <li>
               <button cDropdownItem>Separated link</button>
-            </li>
+            </li>-->
           </ul>
         </c-dropdown>
       </ng-template>
@@ -35,13 +35,13 @@
   </c-col>
   <c-col sm="6" xl="3">
     <c-widget-stat-a
-      [title]="'Income'"
+      [title]="'Contribuyentes'"
       color="info"
     >
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>$6.200</span>
+        <span>{{  contriCount }}</span>
         <span class="fw-normal" style="font-size: 12px;">
-          (40.9%<svg cIcon name="cilArrowTop" size="sm"></svg>)
+          <!--(40.9%<svg cIcon name="cilArrowTop" size="sm"></svg>)-->
         </span>
       </ng-template>
       <ng-template cTemplateId="widgetActionTemplate">
@@ -50,10 +50,10 @@
             <svg cIcon name="cilOptions"></svg>
           </button>
           <ul cDropdownMenu>
-            <li><a [routerLink]="[]" cDropdownItem>Action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Another action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Something else here</a></li>
-            <li><a [disabled]="true" [routerLink]="[]" cDropdownItem>Disabled</a></li>
+            <li><a [routerLink]="['/publicidadexterior/contribuyenteslista']" cDropdownItem>Ver contribuyentes</a></li>
+            <li><a [routerLink]="['/insertarcontribuyente/insertarcontribuyente']" cDropdownItem>Insertar contribuyentes</a></li>
+            <li><a [routerLink]="['/gestion-declaraciones/uploadfileexcel']" cDropdownItem>Cargar contribuyentes</a></li>
+          
           </ul>
         </c-dropdown>
       </ng-template>
@@ -64,13 +64,13 @@
   </c-col>
   <c-col sm="6" xl="3">
     <c-widget-stat-a
-      [title]="'Conversion Rate'"
+      [title]="'Publicidad Exterior'"
       color="warning"
     >
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>2.49</span>
+        <span>{{countvalla}}</span>
         <span class="fw-normal" style="font-size: 12px;">
-          (84.7% <svg cIcon name="cilArrowTop" size="sm"></svg>)
+          <!--(84.7% <svg cIcon name="cilArrowTop" size="sm"></svg>)-->
         </span>
       </ng-template>
       <ng-template cTemplateId="widgetActionTemplate">
@@ -79,10 +79,10 @@
             <svg cIcon name="cilOptions"></svg>
           </button>
           <ul cDropdownMenu>
-            <li><a [routerLink]="[]" cDropdownItem>Action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Another action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Something else here</a></li>
-            <li><a [disabled]="true" [routerLink]="[]" cDropdownItem>Disabled</a></li>
+            <li><a [routerLink]="['/publicidadexterior/vallaslistas']" cDropdownItem>Ver publicidad exterior</a></li>
+            <li><a [routerLink]="['/insertarvallas/insertarvallas']" cDropdownItem>Insertar publicidad exterior</a></li>
+            <li><a [routerLink]="['/publicidadexterior/contribuyenteslista']" cDropdownItem>Ver contribuyentes</a></li>
+            <li><a [routerLink]="['/insertarcontribuyente/insertarcontribuyente']" cDropdownItem>Insertar contribuyentes</a></li>
           </ul>
         </c-dropdown>
       </ng-template>
@@ -93,13 +93,13 @@
   </c-col>
   <c-col sm="6" xl="3">
     <c-widget-stat-a
-      [title]="'Sessions'"
+      [title]="'Declaración Anual'"
       color="danger"
     >
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>44K</span>
+        <span>{{AnualCount}}</span>
         <span class="fw-normal" style="font-size: 12px;">
-          (-23.6% <svg cIcon name="cilArrowBottom" size="sm"></svg>)
+         <!-- (-23.6% <svg cIcon name="cilArrowBottom" size="sm"></svg>)-->
         </span>
       </ng-template>
       <ng-template cTemplateId="widgetActionTemplate">
@@ -108,10 +108,10 @@
             <svg cIcon name="cilOptions"></svg>
           </button>
           <ul cDropdownMenu>
-            <li><a [routerLink]="[]" cDropdownItem>Action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Another action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Something else here</a></li>
-            <li><a [disabled]="true" [routerLink]="[]" cDropdownItem>Disabled</a></li>
+            <li><a [routerLink]="['/gestion-declaraciones/avisosytableroslista']" cDropdownItem>Ver anual</a></li>
+            <li><a [routerLink]="['/insertardelanul/insertardelanul']" cDropdownItem>Insertar anual</a></li>
+            <li><a [routerLink]="['/gestion-declaraciones/uploadfileexcel']" cDropdownItem>Cargar anual</a></li>
+  
           </ul>
         </c-dropdown>
       </ng-template>

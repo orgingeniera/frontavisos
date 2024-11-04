@@ -1,0 +1,143 @@
+<div class="modal" tabindex="-1" style="display: block;" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Reporte del publicidad exterior</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container my-5">
+            <div class="card shadow-sm">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Información del Contribuyente</h5>
+              </div>
+              <div class="card-body">
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                      <th class="bg-light">Opción:</th>
+                      <td> {{ reporteData.opcion }}</td>
+                    </tr>
+                    <tr>
+                      <th >Apellidos y nombres o razón social:</th>
+                      <td>{{ reporteData.nombre_contribuyente }} {{ reporteData.apellido_contribuyente }}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div class="row ">
+                          <div class="col-md-6">
+                            <strong>Tipo Identificación:</strong> {{ reporteData.tipo_identificacion_contribuyente }}
+                          </div>
+                          <div class="col-md-6">
+                            <strong>Identificación:</strong> {{ reporteData.identificacion_contribuyente }}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <strong>DV:</strong> {{ reporteData.dv_contribuyente }}
+                          </div>
+                          <div class="col-md-6">
+                            <strong>Telefono:</strong> {{ reporteData.telefono_contribuyente }}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th >Dirección:</th>
+                      <td>{{ reporteData.nombre_contribuyente }} {{ reporteData.direccion_contribuyente }}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <strong>Municipio:</strong> {{ reporteData.municipio_contribuyente }}
+                          </div>
+                          <div class="col-md-6">
+                            <strong>Departamemto:</strong> {{ reporteData.departamento_contribuyente }}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="container my-5">
+            <div class="card shadow-sm">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Información de la Valla</h5>
+              </div>
+              <div class="card-body">
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                      <th class="bg-light">Registro:</th>
+                      <td> {{ reporteData.n_registro }}</td>
+                    </tr>
+                    <tr>
+                      <th >Fecha instalación:</th>
+                      <td>{{ reporteData.fecha_instalacion }}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div class="row ">
+                          <div class="col-md-6">
+                            <strong>Lugar Instalación:</strong> {{ reporteData.lugar_instalacion }}
+                          </div>
+                          <div class="col-md-6">
+                            {{ reporteData.lugar_instalacion === 'predio' ? 'Dirección' : (reporteData.lugar_instalacion === 'vehiculo' ? 'Placa' : 'Donde') }}: {{ reporteData.donde_instalo }}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="container my-5">
+            <div class="card shadow-sm">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Base Gravable</h5>
+              </div>
+              <div class="card-body">
+                <table class="table table-bordered">
+                  <tbody>
+                    
+                    <tr>
+                      <td colspan="2">
+                        <div class="row ">
+                          <div class="col-md-6">
+                            <strong>Base Gravable:</strong> {{ reporteData.base_gravable }}
+                          </div>
+                          <div class="col-md-6">
+                            <strong>Impuesto a Pagar:</strong> {{ reporteData.impuesto_pagar }}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+         
+        
+          <h6>Imágenes:</h6>
+          <div *ngFor="let imagen of reporteData.imagenes">
+            <img [src]="imagen" alt="Imagen del registro" class="img-thumbnail" style="width: 100%; margin-top: 5px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="printReport()">Imprimir</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

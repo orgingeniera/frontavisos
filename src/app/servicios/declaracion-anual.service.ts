@@ -44,5 +44,7 @@ export class DeclaracionAnualService {
     getImages(declaracionId: number) {
       return this.http.get<IDeclaracionAnulImage[]>(`${this.apiUrl}/declaracionesanul-images/${declaracionId}`);
     }
-  
+    getDeclaracionAnualCount(): Observable<number> {
+      return this.http.get<number>(`${this.apiUrl}/countdeclaracionanul`); // Cambia 'usercount' por la ruta adecuada
+    }
 }
