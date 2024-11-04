@@ -49,5 +49,8 @@ export class ContribuyentesService {
   getAllcontribuyente(): Observable<Icontribuyentes[]> {
     return this.http.get<Icontribuyentes[]>(`${this.apiUrl}/getallcontribuyentes`); // Obtiene todos los usuarios sin paginación
   }
+  getContribuyenteCount(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/contribuyentecount`); // Cambia 'usercount' por la ruta adecuada
+  }
   
 }

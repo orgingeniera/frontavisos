@@ -7,6 +7,8 @@ import { Ivallas } from '../../interfaces/vallas.interface';
 import { ContribuyentesService } from '../../servicios/contribuyentes.service';  // Importamos el servicio
 import { VallasService } from '../../servicios/vallas.service';  // Importamos el servicio
 import { Icontribuyentes } from '../../interfaces//contribuyentes.interface';
+import { UvtService } from '../../servicios/uvt.service';
+import { IUvt } from '../../interfaces/uvt.interface';
 
 @Component({
   selector: 'app-vallas-insertar',
@@ -25,9 +27,10 @@ export class VallasInsertarComponent  {
   contribuyentes: any[] = []; 
   lugarInstalacionLabel: string = '¿Dónde Instaló?';
   lugarInstalacionPlaceholder: string = 'Ingresa dónde instaló';
-  private readonly UVT_VALUE = 47065; // Valor actual del UVT en pesos
+  uvt!: IUvt;
+  valoruvt : number = 0;; // Valor actual del UVT en pesos
 
-  constructor(private contribuyentesService: ContribuyentesService,private route: ActivatedRoute, private fb: FormBuilder, private http: HttpClient, private router: Router, private vallasService: VallasService) {
+  constructor(private uvtService: UvtService,private contribuyentesService: ContribuyentesService,private route: ActivatedRoute, private fb: FormBuilder, private http: HttpClient, private router: Router, private vallasService: VallasService) {
     this.declaracioanualForm = this.fb.group({
       opcion: ['', Validators.required],
       n_registro: ['', Validators.required],
@@ -48,17 +51,25 @@ export class VallasInsertarComponent  {
       this.isEditMode = true; // Activar el modo de edición
       this.loadUserData(this.delaracionAnualId); // Cargar los datos del declaración anual
     }
+    this.loadUvt();
+  }
+  loadUvt(): void {
+    this.uvtService.getUvt().subscribe((data) => {
+      this.uvt = data;
+      this.valoruvt = this.uvt.valor
+     
+    });
   }
   onBaseGravableChange(event: Event) {
     const uvtMultiplier = Number((event.target as HTMLSelectElement).value);
 
     if (uvtMultiplier) {
-      const impuesto = uvtMultiplier * this.UVT_VALUE;
+      const impuesto = uvtMultiplier * this.valoruvt;
       this.declaracioanualForm.get('impuesto_pagar')?.setValue(impuesto);
     }
   }
   loadUserData(delaracionAnualId: number): void {
-    this.vallasService.getDeclaraacionAnualById(delaracionAnualId).subscribe(declaracion => {
+    this.vallasService.getVallasId(delaracionAnualId).subscribe(declaracion => {
       this.declaracioanualForm.patchValue({
         opcion: declaracion.opcion,
         n_registro: declaracion.n_registro,
@@ -105,12 +116,12 @@ export class VallasInsertarComponent  {
      this.vallasService.adddeclaracionanual(delaracion).subscribe({
         next: () => {
           this.isLoading = false;
-          alert('declaración anual insertado correctamente');
+          alert('Aviso exterios insertado correctamente');
           this.router.navigate(['/vallaslistas']);
         },
         error: (err) => {
           this.isLoading = false;
-          this.errorMessage = 'Hubo un error al insertar el declaración anual';
+          this.errorMessage = 'Hubo un error al insertar el aviso exterios';
           console.error(err);
         }
       });

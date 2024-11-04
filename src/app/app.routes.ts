@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './layout';
 import { authGuard } from './guards/auth.guard';
+import { UvtManagerComponent } from './components/uvt-manager/uvt-manager.component'; 
+import { UploadImageVallasComponent } from './components/upload-image-vallas/upload-image-vallas.component'; // Importar el componente
 import { ReporteGeneralDeclaracionesComponent } from './components/reportegeneraldeclaraciones/reportegeneraldeclaraciones.component'; 
 import { UploadImageComponent } from './components/upload-image/upload-image.component'; // Importar el componente
 export const routes: Routes = [
@@ -25,31 +27,31 @@ export const routes: Routes = [
         loadChildren: () => import('./components/user-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
-        path: 'uploadfileexcel',
+        path: 'gestion-declaraciones/uploadfileexcel',
         loadChildren: () => import('./components/excel-upload/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
-        path: 'uploadeclaracionmensual',
+        path: 'gestion-declaraciones/uploadeclaracionmensual',
         loadChildren: () => import('./components/upload-declaracionmensual/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
-        path: 'uploadeclaraciobimestral',
+        path: 'gestion-declaraciones/uploadeclaraciobimestral',
         loadChildren: () => import('./components/upload-declaracionbimestral/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
-        path: 'avisosytableroslista',
+        path: 'gestion-declaraciones/avisosytableroslista',
         loadChildren: () => import('./components/avisosytablero-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
-        path: 'vallaslistas',
+        path: 'publicidadexterior/vallaslistas',
         loadChildren: () => import('./components/vallas-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
-        path: 'contribuyenteslista',
+        path: 'publicidadexterior/contribuyenteslista',
         loadChildren: () => import('./components/contribuyentes-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
-        path: 'declaracionmensuallista',
+        path: 'gestion-declaraciones/declaracionmensuallista',
         loadChildren: () => import('./components/declaracionmensual-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
@@ -97,12 +99,32 @@ export const routes: Routes = [
         loadChildren: () => import('./components/declaracionanual/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
+        path: 'modificarvallas/:id',  
+        loadChildren: () => import('./components/vallas-insertar/routes').then((m) => m.routes),canActivate: [authGuard]
+      },
+      {
         path: 'modificarcontribuyente/:id',  // Nueva ruta para modificar
         loadChildren: () => import('./components/contribuyente-insertar/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
         path: 'uploadimage/:id', // Nueva ruta para cargar directamente el componente
         component: UploadImageComponent,
+        canActivate: [authGuard], // Mantener la protección del guard
+        data: {
+          title: 'Modificar Imagen' // Puedes ajustar el título según lo necesites
+        }
+      },
+      {
+        path: 'uvt',
+        component: UvtManagerComponent,
+        canActivate: [authGuard], 
+        data: {
+          title: 'Modificar Uvt'
+        }
+      },
+      {
+        path: 'uploadimagevallas/:id', // Nueva ruta para cargar directamente el componente
+        component: UploadImageVallasComponent,
         canActivate: [authGuard], // Mantener la protección del guard
         data: {
           title: 'Modificar Imagen' // Puedes ajustar el título según lo necesites

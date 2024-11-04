@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   OnInit,
   ViewChild
 } from '@angular/core';
@@ -26,7 +27,11 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef
   ) {}
-
+  @Input() countusuario!: any;
+  @Input() contriCount!: any;
+  @Input() countvalla!: any;
+  @Input() AnualCount!: any;
+  
   data: any[] = [];
   options: any[] = [];
   labels = [

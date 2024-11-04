@@ -1,4 +1,7 @@
-<app-widgets-dropdown />
+<ng-container *ngIf="userCount">
+<app-widgets-dropdown [countusuario]="userCount.count" [contriCount]="contribuyenteCount.count" [countvalla]="vallaCount.count" [AnualCount]="declaracionAnualCount.count"  />
+</ng-container>
+<!--
 <c-card class="my-4">
   <c-card-body>
     <c-row>
@@ -317,79 +320,66 @@
       </c-card-body>
     </c-card>
   </c-col>
-</c-row>
+</c-row>-->
 <c-row>
   <c-col xs>
-    <c-card class="mb-4">
+    <c-card class="mb-4 shadow-sm border-0 rounded-3">
+      <c-card-header class="bg-body-tertiary text-center text-uppercase fw-bold py-3">
+        <span class="text-primary">
+          <svg cIcon name="cilLibrary" size="lg" class="me-2"></svg>
+          Registros de Vallas Cercanos a un Año
+        </span>
+      </c-card-header>
       <c-card-body>
-        <table
-          [hover]="true"
-          [responsive]="true"
-          [striped]="true"
-          align="middle"
-          cTable
-          class="mb-0 border"
+        <table 
+          [hover]="true" 
+          [responsive]="true" 
+          [striped]="true" 
+          align="middle" 
+          cTable 
+          class="mb-0 border rounded"
         >
-          <thead class="text-nowrap text-truncate">
-          <tr>
-            <th class="bg-body-tertiary text-center ">
-              <svg cIcon name="cilPeople"></svg>
-            </th>
-            <th class="bg-body-tertiary">User</th>
-            <th class="bg-body-tertiary text-center">Country</th>
-            <th class="bg-body-tertiary">Usage</th>
-            <th class="bg-body-tertiary text-center">Payment Method</th>
-            <th class="bg-body-tertiary">Activity</th>
-          </tr>
+          <thead class="text-nowrap bg-primary text-light">
+            <tr>
+              <th class="text-center"><svg cIcon name="cilOptions" size="md"></svg> Opción</th>
+              <th class="text-center"><svg cIcon name="cilClock" size="md"></svg> Meses Restantes</th>
+              <th class="text-center"><svg cIcon name="cilNoteAdd" size="md"></svg> N. Registro</th>
+              <th class="text-center"><svg cIcon name="cilCalendar" size="md"></svg> Fecha Instalación</th>
+              <th class="text-center"><svg cIcon name="cilLocationPin" size="md"></svg> Lugar Instalación</th>
+              <th class="text-center"><svg cIcon name="cilHome" size="md"></svg> Dónde Instaló</th>
+            </tr>
           </thead>
-          <tbody>
-            @for (user of users; track user.name; let i = $index) {
-              <tr>
-                <td class="text-center">
-                  <c-avatar [size]="'md'" src="{{ user.avatar }}" status="{{ user.status }}" />
-                </td>
-                <td>
-                  <div>{{ user.name }}</div>
-                  <div class="small text-body-secondary text-nowrap">
-                  <span>
-                    {{ user.state }} | Registered: {{ user.registered }}
-                  </span>
-                  </div>
-                </td>
-                <td class="text-center">
-                  <svg
-                    cIcon
-                    id="{{ user.country + user.name }}"
-                    name="cif{{ user.country }}"
-                    size="xl"
-                    title="{{ user.country }}"
-                  ></svg>
-                </td>
-                <td>
-                  <div class="d-flex justify-content-between">
-                    <div class="float-start">
-                      <strong>{{ user.usage }}%</strong>
-                    </div>
-                    <div class="float-end ms-1 text-nowrap">
-                      <small class="text-body-secondary">
-                        {{ user.period }}
-                      </small>
-                    </div>
-                  </div>
-                  <c-progress thin [value]="user.usage" color="{{ user.color }}" aria-label="Usage" />
-                </td>
-                <td class="text-center">
-                  <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
-                </td>
-                <td>
-                  <div class="small text-body-secondary">Last login</div>
-                  <div class="fw-semibold text-nowrap">{{ user.activity }}</div>
-                </td>
-              </tr>
-            }
+          <tbody *ngIf="vallas && vallas.length > 0">
+            <tr
+              *ngFor="let valla of vallas" >
+              <td class="text-center fw-bold">{{ valla.opcion }}</td>
+              <td class="text-center">
+                <span
+                  [ngClass]="{
+                    'badge bg-danger': valla.meses_restantes !== undefined && valla.meses_restantes <= 2,
+                    'badge bg-warning text-dark': (valla.meses_restantes ?? 0) <= 2,
+                    'badge bg-success': (valla.meses_restantes ?? 0) > 2 && (valla.meses_restantes ?? 0) <= 6
+                  }"
+                >
+                  {{ valla.meses_restantes }}
+                </span>
+              </td>
+              <td class="text-center">{{ valla.n_registro }}</td>
+              <td class="text-center">{{ valla.fecha_instalacion | date:'longDate' }}</td>
+              <td class="text-center">{{ valla.lugar_instalacion }}</td>
+              <td class="text-center">{{ valla.donde_instalo }}</td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="!vallas || vallas.length === 0">
+            <tr>
+              <td colspan="6" class="text-center text-muted">No hay vallas cercanas a cumplir un año</td>
+            </tr>
           </tbody>
         </table>
       </c-card-body>
+      <c-card-footer class="text-end py-2 bg-body-tertiary border-0">
+        <small class="text-muted">Actualizado {{ currentDate | date:'fullDate' }}</small>
+      </c-card-footer>
     </c-card>
   </c-col>
 </c-row>

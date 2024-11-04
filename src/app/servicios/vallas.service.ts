@@ -3,6 +3,10 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Iavisosytablero } from '../interfaces/avisosytablero.interface';
 import { Ivallas } from '../interfaces/vallas.interface';
+import { IimagenVallas } from '../interfaces/imageVallas.interface';
+
+
+
 
 @Injectable({
   providedIn: 'root'  // Hace que el servicio esté disponible en toda la aplicación
@@ -20,13 +24,13 @@ export class VallasService {
     return this.http.get<any>(`${this.apiUrl}/vallas?page=${page}&per_page=${perPage}${searchParam}`);
   }
   updategetDeclaraacionAnual(declaracionanual: Ivallas): Observable<Ivallas> {
-    return this.http.put<Ivallas>(`${this.apiUrl}/updatdeclaracionanual/${declaracionanual.id}`, declaracionanual); 
+    return this.http.put<Ivallas>(`${this.apiUrl}/vallas/${declaracionanual.id}`, declaracionanual); 
   }
   getAllAvisosytableros(): Observable<Iavisosytablero[]> {
-    return this.http.get<Iavisosytablero[]>(`${this.apiUrl}/getallavisosytableros`); // El token se agrega automáticamente
+    return this.http.get<Iavisosytablero[]>(`${this.apiUrl}/getallvallas`); // El token se agrega automáticamente
   }
-  getDeclaraacionAnualById(id: number): Observable<Ivallas> {
-    return this.http.get<Ivallas>(`${this.apiUrl}/getdeclaracionanualbyid/${id}`);
+  getVallasId(id: number): Observable<Ivallas> {
+    return this.http.get<Ivallas>(`${this.apiUrl}/vallas/${id}`);
   }
   adddeclaracionanual(declaracionanual: Ivallas): Observable<Ivallas> {
     return this.http.post<Ivallas>(`${this.apiUrl}/vallas`, declaracionanual);
@@ -42,10 +46,23 @@ export class VallasService {
     return this.http.put<Iavisosytablero>(`${this.apiUrl}/updateuser/${user.id}`, user); // Asegúrate de que el endpoint sea correcto
   }
   deleteDeclaraacionAnual(declaracionanualId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/deletedeclaracionanual/${declaracionanualId}/delete`, {}); 
+    return this.http.delete(`${this.apiUrl}/vallas/${declaracionanualId}/delete`, {}); 
   }
   getAllclaracionanual(): Observable<Iavisosytablero[]> {
-    return this.http.get<Iavisosytablero[]>(`${this.apiUrl}/getallclaracionanual`); // Obtiene todos los usuarios sin paginación
+    return this.http.get<Iavisosytablero[]>(`${this.apiUrl}/vallasgetall`); // Obtiene todos los usuarios sin paginación
+  }
+  uploadImage(formData: FormData): Observable<any> {
+    
+    return this.http.post(`${this.apiUrl}/vallas-images`, formData);
+  }
+  getImages(vallasId: number) {
+    return this.http.get<IimagenVallas[]>(`${this.apiUrl}/vallas-images/${vallasId}`);
   }
   
+  getVallasCount(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/countVallas`); // Cambia 'usercount' por la ruta adecuada
+  }
+  getVallasanodespues(): Observable<Ivallas[]> {
+    return this.http.get<Ivallas[]>(`${this.apiUrl}/vallas/cercanos-anio`); // Cambia 'usercount' por la ruta adecuada
+  }
 }

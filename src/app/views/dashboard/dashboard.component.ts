@@ -2,6 +2,14 @@ import { DOCUMENT, NgStyle } from '@angular/common';
 import { Component, DestroyRef, effect, inject, OnInit, Renderer2, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChartOptions } from 'chart.js';
+import { UserService } from '../../servicios/user.service';  // Importamos el servicio
+import {ContribuyentesService } from '../../servicios/contribuyentes.service'; 
+import {VallasService } from '../../servicios/vallas.service'; 
+import {DeclaracionAnualService } from '../../servicios/declaracion-anual.service'; 
+import { Ivallas } from '../../interfaces/vallas.interface';
+
+
+
 import {
   AvatarComponent,
   ButtonDirective,
@@ -25,7 +33,7 @@ import { IconDirective } from '@coreui/icons-angular';
 import { WidgetsBrandComponent } from '../widgets/widgets-brand/widgets-brand.component';
 import { WidgetsDropdownComponent } from '../widgets/widgets-dropdown/widgets-dropdown.component';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
-
+import { CommonModule } from '@angular/common';
 interface IUser {
   name: string;
   state: string;
@@ -44,7 +52,7 @@ interface IUser {
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
   standalone: true,
-  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent]
+  imports: [CommonModule,WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent]
 })
 export class DashboardComponent implements OnInit {
 
@@ -52,7 +60,66 @@ export class DashboardComponent implements OnInit {
   readonly #document: Document = inject(DOCUMENT);
   readonly #renderer: Renderer2 = inject(Renderer2);
   readonly #chartsData: DashboardChartsData = inject(DashboardChartsData);
+  userCount: any | null = null; // Variable para almacenar la cantidad de usuarios
+  message: string | null = null; // Variable para mensajes
+  contribuyenteCount: any | null = null;
+  vallaCount: any | null = null;
+  declaracionAnualCount: any | null = null;
+  vallas: Ivallas[] = []; 
+  currentDate: Date;
+  constructor(private declaracionAnualService: DeclaracionAnualService,private vallasService: VallasService,private userService: UserService, private contribuyentesService: ContribuyentesService){
+    this.currentDate = new Date();
+  }
+  
+ 
 
+  loadUserCount(): void {
+    
+    this.declaracionAnualService.getDeclaracionAnualCount().subscribe(
+      (count) => {
+        this.declaracionAnualCount = count; // Asignar la cantidad de usuarios
+       
+        //this.message = `Cantidad de usuarios: ${this.userCount}`; // Mensaje de éxito
+      },
+      (error) => {
+        console.error('Error al obtener la cantidad de usuarios:', error);
+        this.message = 'Hubo un error al cargar la cantidad de usuarios.'; // Mensaje de error
+      }
+    );
+    this.vallasService.getVallasCount().subscribe(
+      (count) => {
+        this.vallaCount = count; // Asignar la cantidad de usuarios
+       
+        //this.message = `Cantidad de usuarios: ${this.userCount}`; // Mensaje de éxito
+      },
+      (error) => {
+        console.error('Error al obtener la cantidad de usuarios:', error);
+        this.message = 'Hubo un error al cargar la cantidad de usuarios.'; // Mensaje de error
+      }
+    );
+    this.contribuyentesService.getContribuyenteCount().subscribe(
+      (count) => {
+        this.contribuyenteCount = count; // Asignar la cantidad de usuarios
+       
+        //this.message = `Cantidad de usuarios: ${this.userCount}`; // Mensaje de éxito
+      },
+      (error) => {
+        console.error('Error al obtener la cantidad de usuarios:', error);
+        this.message = 'Hubo un error al cargar la cantidad de usuarios.'; // Mensaje de error
+      }
+    );
+    this.userService.getUserCount().subscribe(
+      (count) => {
+        this.userCount = count; // Asignar la cantidad de usuarios
+      //  console.log(`Cantidad de usuarios: ${this.userCount.count}`)
+        //this.message = `Cantidad de usuarios: ${this.userCount}`; // Mensaje de éxito
+      },
+      (error) => {
+        console.error('Error al obtener la cantidad de usuarios:', error);
+        this.message = 'Hubo un error al cargar la cantidad de usuarios.'; // Mensaje de error
+      }
+    );
+  }
   public users: IUser[] = [
     {
       name: 'Yiorgos Avraamu',
@@ -149,8 +216,20 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.initCharts();
     this.updateChartOnColorModeChange();
+    this.loadUserCount();
+    this.getVallasCercanas();
+    this.currentDate = new Date();
   }
-
+  getVallasCercanas(): void {
+    this.vallasService.getVallasanodespues().subscribe(
+      (data) => {
+      this.vallas = data;
+      },
+      (error) => {
+        console.error('Error al obtener las vallas cercanas:', error);
+      }
+    );
+  }
   initCharts(): void {
     this.mainChart = this.#chartsData.mainChart;
   }
