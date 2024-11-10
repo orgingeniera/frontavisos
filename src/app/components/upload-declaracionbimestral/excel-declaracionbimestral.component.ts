@@ -14,7 +14,8 @@ export class ExcelDeclaracionBimestralComponent {
   selectedFile: File | null = null;
   message: string | null = null;
   isSuccess: boolean = false;
-  isLoading: boolean = false;  
+  isLoading: boolean = false; 
+  fileUrl = 'assets/excel/declaraciones.xlsx';
   constructor(private excelUploadService: ExcelUploadService) { }
 
   onFileSelected(event: Event) {

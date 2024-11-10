@@ -1,6 +1,9 @@
 <div class="container mt-5">
     <h2 class="text-center">Cargar archivo declaración mensual</h2>
-    
+    <br>
+    <a [href]="fileUrl" download="declaraciones.xlsx" class="btn btn-success btn-lg">
+        <i class="fas fa-download"></i> Descargar archivo Excel
+      </a><br><br>
     <div class="mb-3">
         <input type="file" class="form-control" name="file" (change)="onFileSelected($event)" accept=".xls,.xlsx,.csv" />
     </div>

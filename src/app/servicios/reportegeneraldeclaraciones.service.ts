@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'  // Hace que el servicio esté disponible en toda la aplicación
 })
 export class ReportegeneralDeclaracionesService {
-  private apiUrl = 'http://127.0.0.1:8000/api';  // URL de la API
+  private apiUrl = environment.apiUrl; // URL de la API
 
   constructor(private http: HttpClient) {}
    // Método para obtener declaraciones por nit

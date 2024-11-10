@@ -15,7 +15,7 @@
               </div>
               <form cForm (submit)="login()">
                 <h1>Login</h1>
-                <p class="text-body-secondary">Sign In to your account</p>
+                <p class="text-body-secondary">Ingrese los datos por favor.</p>
                 <c-input-group class="mb-3">
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
@@ -47,7 +47,7 @@
                 <c-row>
                   <c-col xs="6">
                     <button type="submit" cButton class="px-4" color="primary">
-                      Login
+                      Entrar
                     </button>
                   </c-col>
                   <c-col class="text-right" xs="6">
@@ -60,14 +60,13 @@
           <c-card [ngStyle]="{'minWidth.%': 44}" class="text-white bg-primary py-5">
             <c-card-body class="text-center">
               <div>
-                <h2>Sign up</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
+                <h2>Bienvenidos</h2>
+                <p align="justify">
+                  Nos complace darte la bienvenida a nuestra plataforma, diseñada para facilitar la gestión y fiscalización de avisos y publicidad exterior. Aquí podrás gestionar tus permisos, actualizar tus registros y consultar información sobre el pago de impuestos de publicidad. Nuestro objetivo es brindar un servicio ágil y transparente que contribuya al ordenamiento y desarrollo del entorno urbano de nuestra ciudad.
                 </p>
-                <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
+               <!-- <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
                   Register Now!
-                </button>
+                </button>-->
               </div>
             </c-card-body>
           </c-card>

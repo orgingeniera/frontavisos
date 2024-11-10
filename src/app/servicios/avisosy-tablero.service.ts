@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Iavisosytablero } from '../interfaces/avisosytablero.interface';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'  // Hace que el servicio esté disponible en toda la aplicación
 })
 export class AvisosyTableroService {
-  private apiUrl = 'http://127.0.0.1:8000/api';  // URL de la API
+  private apiUrl = environment.apiUrl;  // URL de la API
 
   constructor(private http: HttpClient) {}
   getToken(): string | null {
