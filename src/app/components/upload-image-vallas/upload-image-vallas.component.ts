@@ -16,6 +16,7 @@ export class UploadImageVallasComponent implements OnInit {
   vallasId!: number;
   selectedFile: File | null = null;
   images: IimagenVallas[] = [];
+  isLoading: boolean = false; // Variable para controlar el estado de carga
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -47,6 +48,7 @@ export class UploadImageVallasComponent implements OnInit {
 
   onUpload(): void {
     if (this.selectedFile) {
+      this.isLoading = true;
       const formData = new FormData();
       formData.append('image', this.selectedFile); // Añadir el archivo al FormData
       formData.append('vallas_id', this.vallasId.toString()); // Añadir el ID de la declaración anual
@@ -54,12 +56,31 @@ export class UploadImageVallasComponent implements OnInit {
       this.vallasService.uploadImage(formData).subscribe(
         response => {
           console.log('Imagen cargada exitosamente:', response);
-          this.router.navigate(['/vallaslistas']); // Regresar a la lista
+          this.isLoading = false;
+          this.loadImages()
+          //this.router.navigate(['/uploadimagevallas', this.vallasId]); // Regresar a la lista
         },
         error => {
           console.error('Error al cargar la imagen:', error);
+          this.isLoading = false;
         }
       );
     }
   }
+  onDeleteImage(imageId: number): void {
+    this.isLoading = true;
+    this.vallasService.deleteImage(imageId).subscribe(
+      (response) => {
+        this.isLoading = false;
+        
+        console.log('Imagen eliminada exitosamente:', response);
+        // Recargar las imágenes después de eliminar
+        this.loadImages();
+      },
+      (error) => {
+        console.error('Error al eliminar la imagen:', error);
+      }
+    );
+  }
+  
 }

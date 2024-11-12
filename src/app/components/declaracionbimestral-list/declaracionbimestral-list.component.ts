@@ -22,6 +22,7 @@ export class DeclaracionbimestralListComponent implements OnInit {
   avisosytablero: any[] = [];  // Aquí se almacenarán los usuarios
   totalPages: number = 0; // Total de páginas
   currentPage: number = 1; // Página actual
+  total: number = 0;
   perPage: number = 10;
   perPageOptions: number[] = [10, 20, 50, 100];
   searchTerm: string = ''; 
@@ -77,6 +78,7 @@ export class DeclaracionbimestralListComponent implements OnInit {
         this.avisosytablero = filteredData;
         this.totalPages = response.last_page;
         this.currentPage = response.current_page;
+        this.total = response.total;
       },
       (error) => {
         console.error('Error al obtener los avisos y tableros:', error);
@@ -95,7 +97,20 @@ export class DeclaracionbimestralListComponent implements OnInit {
     this.getDeclaracionBimestral(1); // Volver a la primera página al cambiar la cantidad de registros
   }
  
-    
+  limpiarTabla(): void {
+    if (confirm("¿Estás seguro de que deseas eliminar todos los datos de la tabla? Esta acción no se puede deshacer.")) {
+        this.declaracionBimestralService.eliminarDeclaracionesBimestral().subscribe(
+            (response) => {
+              this.avisosytablero = [];
+                console.log(response.message); // Mensaje de éxito
+                // Lógica adicional para actualizar la vista si es necesario
+            },
+            (error) => {
+                console.error('Error al eliminar los datos:', error);
+            }
+        );
+    }
+}   
   deleteDeclaracionAnual(declaracionanualId: number) {
     const conf = confirm("¿Está seguro de eliminar este registro: " + declaracionanualId + "?");
     if (conf) {

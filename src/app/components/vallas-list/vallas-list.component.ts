@@ -196,8 +196,9 @@ openUploadImageForm(vallasId: number): void {
         // Ejemplo: this.openReportModal(reporteData);
       },
       (error) => {
+        console.log(error.status)
         // Verifica si el error es el mensaje esperado
-          if (error.status === 404 && error.error?.message === "No se encontraron imágenes para esta publicidad exterior.") {
+          if (error.status === 404) {
             console.warn('No se encontraron imágenes para esta publicidad exterior.');
             reporteData.imagenes = []; // Mantén las imágenes como un array vacío
             this.reporteData = reporteData; // Aún así, asigna los datos para mostrar el popup sin imágenes

@@ -55,7 +55,9 @@ export class ReporteGeneralDeclaracionesComponent implements OnInit {
       console.error('NIT no definido');
       return;
     }
-    this.reportegeneralDeclaracionesService.obtenerDeclaraciones(this.nit).subscribe(
+    const year = new Date().getFullYear();
+    const vigenciaanterior = year - 1;
+    this.reportegeneralDeclaracionesService.obtenerDeclaraciones(this.nit, vigenciaanterior).subscribe(
       (data) => {
         this.infoGeneral = data.info_general;
         this.declaracionesAnuales = data.declaraciones_anuales;
@@ -86,14 +88,23 @@ export class ReporteGeneralDeclaracionesComponent implements OnInit {
     // Comparar con el impuesto de Avisos y Tableros
     const impuestoAvisosTableros = this.infoGeneral?.impuesto_avisos_tableros || 0;
   
-    // Verificar condiciones y mostrar mensajes
-    if (sumaAutoretencionIndustriaComercio !== totalIndustriaComercio || 
-        sumaMasAutoretencionesAvisosTableros !== impuestoAvisosTableros) {
+    // Verificar si todas las variables son 0
+    if (sumaAutoretencionIndustriaComercio === 0 && totalIndustriaComercio === 0 && 
+        sumaMasAutoretencionesAvisosTableros === 0 && impuestoAvisosTableros === 0) {
+      this.mensaje = '⚠️ El contribuyente tiene presunción de omiso porque tiene valores son cero.';
+      this.tipoAlerta = 'alert-warning'; // Tipo de alerta advertencia
+    }
+    // Verificar si los valores no concuerdan
+    else if (sumaAutoretencionIndustriaComercio !== totalIndustriaComercio || 
+             sumaMasAutoretencionesAvisosTableros !== impuestoAvisosTableros) {
       this.mensaje = '⚠️ El contribuyente se encuentra omiso porque los valores no concuerdan.';
       this.tipoAlerta = 'alert-danger'; // Tipo de alerta peligro
-    } else {
+    }
+    // Si los valores son iguales
+    else {
       this.mensaje = '✅ El contribuyente NO está omiso porque los datos concuerdan.';
       this.tipoAlerta = 'alert-success'; // Tipo de alerta éxito
     }
   }
+  
 }

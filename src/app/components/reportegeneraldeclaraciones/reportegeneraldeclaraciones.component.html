@@ -11,10 +11,20 @@
         <tr>
           <th scope="row">NIT</th>
           <td>{{ infoGeneral.nit_contribuyente }}</td>
-        </tr>
-        <tr>
           <th scope="row">Razón Social</th>
           <td>{{ infoGeneral.razon_social }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Dirección</th>
+          <td>{{ infoGeneral.direccion }}</td>
+          <th scope="row">Ciudad</th>
+          <td>{{ infoGeneral.ciudad }}</td>
+        </tr>
+        <tr>
+          <th scope="row">E-mail</th>
+          <td>{{ infoGeneral.correo_electronico }}</td>
+          <th scope="row"></th>
+          <td></td>
         </tr>
       </tbody>
     </table>
@@ -27,12 +37,16 @@
         <tr>
           <th>Total Industria y Comercio</th>
           <th>Impuesto Avisos y Tableros</th>
+          <th>Vigencia</th>
+          <th>Regimen</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let declaracion of declaracionesAnuales">
           <td>{{ declaracion.total_industria_comercio }}</td>
           <td>{{ declaracion.impuesto_avisos_tableros }}</td>
+          <td>{{ declaracion.vigencia }}</td>
+          <td>{{ declaracion.regimen }}</td>
         </tr>
       </tbody>
     </table>
@@ -45,12 +59,18 @@
         <tr>
           <th>Autoretención Impuesto Industria y Comercio</th>
           <th>Más Autoretenciones Impuestos Avisos y Tableros</th>
+          <th>Vigencia</th>
+          <th>Periodo</th>
+          <th>Regimen</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let declaracion of declaracionesMensuales">
           <td>{{ declaracion.autoretencion_impuesto_industria_comercio }}</td>
           <td>{{ declaracion.mas_autoretenciones_impuestos_avisos_tableros }}</td>
+          <td>{{ declaracion.vigencia }}</td>
+          <td>{{ declaracion.periodo }}</td>
+          <td>{{ declaracion.regimen }}</td>
         </tr>
       </tbody>
     </table>
@@ -63,12 +83,18 @@
         <tr>
           <th>Autoretención Impuesto Industria y Comercio</th>
           <th>Más Autoretenciones Impuestos Avisos y Tableros</th>
+          <th>Vigencia</th>
+          <th>Periodo</th>
+          <th>Regimen</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let declaracion of declaracionesBimestrales">
           <td>{{ declaracion.autoretencion_impuesto_industria_comercio }}</td>
           <td>{{ declaracion.mas_autoretenciones_impuestos_avisos_tableros }}</td>
+          <td>{{ declaracion.vigencia }}</td>
+          <td>{{ declaracion.periodo }}</td>
+          <td>{{ declaracion.regimen }}</td>
         </tr>
       </tbody>
     </table>

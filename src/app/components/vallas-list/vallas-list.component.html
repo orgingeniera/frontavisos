@@ -1,6 +1,6 @@
 <div class="container mt-4">
     <h2>Publicidad Exterior</h2>
-    <button class="btn btn-primary mb-3 me-2" [routerLink]="['/insertarvallas']">Insertar Declarion anual</button>
+    <button class="btn btn-primary mb-3 me-2" [routerLink]="['/insertarvallas']">Insertar Publicidad exterior</button>
     <!-- Botón para exportar a Excel -->
     <button class="btn btn-success mb-3" (click)="exportToExcel()">Exportar a Excel</button>
  
@@ -17,7 +17,7 @@
     
       <!-- Campo de búsqueda alineado al extremo derecho -->
       <div class="ms-auto">
-        <label for="searchInput">Buscar usuario:</label>
+        <label for="searchInput">Buscar vallas:</label>
         <input type="text" id="searchInput" class="form-control" (input)="onSearch($event)" 
                placeholder="Escriba el nombre o correo" style="width: 250px;">
       </div>

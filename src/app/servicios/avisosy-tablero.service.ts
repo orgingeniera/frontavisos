@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Iavisosytablero } from '../interfaces/avisosytablero.interface';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'  // Hace que el servicio esté disponible en toda la aplicación
 })
 export class AvisosyTableroService {
-  private apiUrl = 'http://127.0.0.1:8000/api';  // URL de la API
+  private apiUrl = environment.apiUrl;  // URL de la API
 
   constructor(private http: HttpClient) {}
   getToken(): string | null {
@@ -17,6 +17,11 @@ export class AvisosyTableroService {
 
     const searchParam = search ? `&search=${search}` : '';  // Si hay búsqueda, se añade al query
     return this.http.get<any>(`${this.apiUrl}/allavisosytablero?page=${page}&per_page=${perPage}${searchParam}`);
+  }
+   getDeclaracionMensual(page: number, perPage: number, search: string = ''): Observable<any> {
+
+    const searchParam = search ? `&search=${search}` : '';  // Si hay búsqueda, se añade al query
+    return this.http.get<any>(`${this.apiUrl}/alldeclaracionmensual?page=${page}&per_page=${perPage}${searchParam}`);
   }
   
   getAllAvisosytableros(): Observable<Iavisosytablero[]> {
@@ -38,5 +43,9 @@ export class AvisosyTableroService {
   getAllclaracionanual(): Observable<Iavisosytablero[]> {
     return this.http.get<Iavisosytablero[]>(`${this.apiUrl}/getallclaracionanual`); // Obtiene todos los usuarios sin paginación
   }
-  
+  // En tu servicio de Angular (reportegeneralDeclaracionesService por ejemplo)
+  eliminarDeclaracionesAnul(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/eliminarDeclaracionesAnul`);
+  }
+
 }

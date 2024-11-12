@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Ideclaracionmensual } from '../interfaces/declaracionmensualinterface';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'  // Hace que el servicio esté disponible en toda la aplicación
 })
 export class DeclaracionMensualService {
-  private apiUrl = 'http://127.0.0.1:8000/api';  // URL de la API
+  private apiUrl = environment.apiUrl;  // URL de la API
 
   constructor(private http: HttpClient) {}
   getToken(): string | null {
@@ -50,5 +50,8 @@ export class DeclaracionMensualService {
   getAllDeclaracionAnualByNit(nit_contribuyente: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/getAlldeclaracionanualbynit/${nit_contribuyente}`);
   }
-  
+  eliminarDeclaracionesMensual(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/eliminarDeclaracionesMensuales`);
+  }
+
 }
