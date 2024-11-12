@@ -50,5 +50,8 @@ export class DeclaracionMensualService {
   getAllDeclaracionAnualByNit(nit_contribuyente: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/getAlldeclaracionanualbynit/${nit_contribuyente}`);
   }
-  
+  eliminarDeclaracionesMensual(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/eliminarDeclaracionesMensuales`);
+  }
+
 }

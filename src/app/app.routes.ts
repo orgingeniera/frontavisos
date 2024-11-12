@@ -55,7 +55,7 @@ export const routes: Routes = [
         loadChildren: () => import('./components/declaracionmensual-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {
-        path: 'declaracionbimestrallista',
+        path: 'gestion-declaraciones/declaracionbimestrallista',
         loadChildren: () => import('./components/declaracionbimestral-list/routes').then((m) => m.routes),canActivate: [authGuard]
       },
       {

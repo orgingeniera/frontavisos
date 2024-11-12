@@ -65,4 +65,7 @@ export class VallasService {
   getVallasanodespues(): Observable<Ivallas[]> {
     return this.http.get<Ivallas[]>(`${this.apiUrl}/vallas/cercanos-anio`); // Cambia 'usercount' por la ruta adecuada
   }
+  deleteImage(imageId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/vallas-images/${imageId}`);
+  }
 }

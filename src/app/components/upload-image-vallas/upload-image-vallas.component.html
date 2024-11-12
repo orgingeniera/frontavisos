@@ -3,10 +3,20 @@
   <input type="file" (change)="onFileSelected($event)" />
   <button class="btn btn-primary" (click)="onUpload()">Subir Imagen</button>
 
+  <!-- Indicador de carga usando el spinner de Bootstrap -->
+  <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center mt-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="ms-3">Cargando...</p>
+  </div>
+
   <h3>Imágenes Cargadas:</h3>
   <div *ngIf="images.length > 0; else noImages">
     <div *ngFor="let image of images">
       <img [src]="image.image_url" alt="Imagen de declaración" style="max-width: 400px; max-height: 400px; margin: 10px;" />
+      <!-- Botón de eliminación -->
+      <button (click)="onDeleteImage(image.id)" class="btn btn-danger">Eliminar</button>
     </div>
   </div>
   <ng-template #noImages>

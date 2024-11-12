@@ -2,8 +2,9 @@
     <h2>Declaración Mensual</h2>
     <button class="btn btn-primary mb-3 me-2" [routerLink]="['/insertardelmensual']">Insertar Declarion Mensual</button>
     <!-- Botón para exportar a Excel -->
-    <button class="btn btn-success mb-3" (click)="exportToExcel()">Exportar a Excel</button>
- 
+    <button class="btn btn-success mb-3 me-2" (click)="exportToExcel()">Exportar a Excel</button>
+    <button class="btn btn-danger mb-3" (click)="limpiarTabla()">Limpiar tabla</button>
+
     <!-- Selector de cantidad de registros por página -->
     <div class="mb-3 d-flex align-items-center">
       <!-- Selector de registros por página -->
@@ -29,6 +30,7 @@
                placeholder="Escriba el nombre o correo" style="width: 250px;">
       </div>
     </div>
+    <div *ngIf="avisosytablero.length > 0; else noData">
     <div style="overflow-x: auto;">
       <table class="table table-striped" *ngIf="avisosytablero.length > 0">
         <thead>
@@ -92,7 +94,9 @@
   </div>
     
     
-   
+  <div *ngIf="total > 0" class="total-records">
+    Total de registros: {{ total }}
+  </div>
     <nav *ngIf="totalPages > 1">
       <ul class="pagination">
         <li class="page-item" [class.disabled]="currentPage === 1">
@@ -108,11 +112,15 @@
         </li>
       </ul>
     </nav>
+  </div>
+  <ng-template #noData>
+    <p>No hay datos disponibles en la tabla.</p>
+  </ng-template>
     <div *ngIf="avisosytablero.length === 0">
-      No hay avissos y tableros disponibles.
+      No hay avisos y tableros disponibles.
     </div>
     <div *ngIf="reporteData">
-      ok
+     
       <app-reportemensual
         [reporteData]="reporteData"
         (close)="closeModal()"

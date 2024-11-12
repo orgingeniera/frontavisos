@@ -11,8 +11,8 @@ export class ReportegeneralDeclaracionesService {
 
   constructor(private http: HttpClient) {}
    // Método para obtener declaraciones por nit
-   obtenerDeclaraciones(nit: string): Observable<any> {
-    console.log(`${this.apiUrl}/obtenerDeclaracionesPorNit/${nit}`)
-    return this.http.get(`${this.apiUrl}/obtenerDeclaracionesPorNit/${nit}`);
+   obtenerDeclaraciones(nit: string, vigencia: number): Observable<any> {
+    console.log(`${this.apiUrl}/obtenerDeclaracionesPorNit/${nit}/${vigencia}`);
+    return this.http.get(`${this.apiUrl}/obtenerDeclaracionesPorNit/${nit}/${vigencia}`);
   }
 }

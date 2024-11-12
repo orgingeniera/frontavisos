@@ -18,6 +18,11 @@ export class AvisosyTableroService {
     const searchParam = search ? `&search=${search}` : '';  // Si hay búsqueda, se añade al query
     return this.http.get<any>(`${this.apiUrl}/allavisosytablero?page=${page}&per_page=${perPage}${searchParam}`);
   }
+   getDeclaracionMensual(page: number, perPage: number, search: string = ''): Observable<any> {
+
+    const searchParam = search ? `&search=${search}` : '';  // Si hay búsqueda, se añade al query
+    return this.http.get<any>(`${this.apiUrl}/alldeclaracionmensual?page=${page}&per_page=${perPage}${searchParam}`);
+  }
   
   getAllAvisosytableros(): Observable<Iavisosytablero[]> {
     return this.http.get<Iavisosytablero[]>(`${this.apiUrl}/getallavisosytableros`); // El token se agrega automáticamente
@@ -38,5 +43,9 @@ export class AvisosyTableroService {
   getAllclaracionanual(): Observable<Iavisosytablero[]> {
     return this.http.get<Iavisosytablero[]>(`${this.apiUrl}/getallclaracionanual`); // Obtiene todos los usuarios sin paginación
   }
-  
+  // En tu servicio de Angular (reportegeneralDeclaracionesService por ejemplo)
+  eliminarDeclaracionesAnul(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/eliminarDeclaracionesAnul`);
+  }
+
 }

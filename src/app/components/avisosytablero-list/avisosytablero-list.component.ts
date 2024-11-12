@@ -20,6 +20,7 @@ export class avisosytableroListComponent implements OnInit {
   avisosytablero: any[] = [];  // Aquí se almacenarán los usuarios
   totalPages: number = 0; // Total de páginas
   currentPage: number = 1; // Página actual
+  total: number = 0;
   perPage: number = 10;
   perPageOptions: number[] = [10, 20, 50, 100];
   searchTerm: string = ''; 
@@ -73,6 +74,7 @@ export class avisosytableroListComponent implements OnInit {
         this.avisosytablero = filteredData;
         this.totalPages = response.last_page;
         this.currentPage = response.current_page;
+        this.total = response.total;
       },
       (error) => {
         console.error('Error al obtener los avisos y tableros:', error);
@@ -151,6 +153,23 @@ openUploadImageForm(declaracionId: number): void {
     
 
   }
+  // En tu componente
+  limpiarTabla(): void {
+    if (confirm("¿Estás seguro de que deseas eliminar todos los datos de la tabla? Esta acción no se puede deshacer.")) {
+        this.avisosyTableroService.eliminarDeclaracionesAnul().subscribe(
+            (response) => {
+              this.avisosytablero = [];
+                console.log(response.message); // Mensaje de éxito
+                // Lógica adicional para actualizar la vista si es necesario
+            },
+            (error) => {
+                console.error('Error al eliminar los datos:', error);
+            }
+        );
+    }
+}
+
+
   mostrarReporte(avisos: any): void {
     const reporteData = {
       nit_contribuyente: avisos.nit_contribuyente,

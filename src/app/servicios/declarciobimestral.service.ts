@@ -50,5 +50,9 @@ export class DeclaracionBimestralService {
   getAllDeclaracionBimestralByNit(nit_contribuyente: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/getAlldeclaracionbimestralbynit/${nit_contribuyente}`);
   }
+  eliminarDeclaracionesBimestral(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/eliminarDeclaracionesBimestrales`);
+  }
+
   
 }
