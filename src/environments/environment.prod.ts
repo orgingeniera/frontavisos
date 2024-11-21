@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://api.pruebanodo.riohachaimpuesto.com/api',
+    apiUrl: 'https://api.fiscalizacionriohacha.com/api',
     apiKey: 'desarrollo_key'
   };
